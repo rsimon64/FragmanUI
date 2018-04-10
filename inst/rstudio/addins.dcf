@@ -1,0 +1,4 @@
+Name: ABI reads scores
+Description: Auto scores ABI readings
+Binding: auto_score_addin
+Interactive: true

@@ -9,7 +9,10 @@
 # Need to use with the corresponding `withBusyIndicator` server function
 
 www <- system.file("www", package = "FragmanUI")
-gif <- file.path(www, "ajax-loader-bar.gif")
+alb <- "ajax-loader-bar.gif"
+gif <- file.path(www, alb)
+
+file.copy(gif, file.path(getwd(), alb), overwrite = TRUE)
 
 withBusyIndicatorUI <- function(button) {
   id <- button[['attribs']][['id']]
@@ -19,7 +22,7 @@ withBusyIndicatorUI <- function(button) {
     span(
       class = "btn-loading-container",
       hidden(
-        img(src = gif, class = "btn-loading-indicator"),
+        img(src = alb, class = "btn-loading-indicator"),
         icon("check", class = "btn-done-indicator")
       )
     ),
