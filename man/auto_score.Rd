@@ -4,12 +4,14 @@
 \alias{auto_score}
 \title{auto_score}
 \usage{
-auto_score(folder = choose.dir(), min_threshold = 5000, x_range = c(200,
-  500), channels = 1:5, my.ladder = liz600, marker = "mark",
-  plotting = FALSE)
+auto_score(folder = choose.dir(), ploidy = 2, min_threshold = 5000,
+  x_range = c(200, 500), channels = 1:5, my.ladder = liz600,
+  marker = "mark", quality = 0.9999, plotting = FALSE)
 }
 \arguments{
 \item{folder}{string path to a folder with only ABI files}
+
+\item{ploidy}{integer; default 2; not yet implemented in Fragman}
 
 \item{min_threshold}{integer, default: 5000}
 
@@ -20,6 +22,8 @@ auto_score(folder = choose.dir(), min_threshold = 5000, x_range = c(200,
 \item{my.ladder}{integer vector: default: LIZ600 values}
 
 \item{marker}{string; a namer for the marker}
+
+\item{quality}{numeric; default: 0.9999. 1 would be highest}
 
 \item{plotting}{logical; whether to create plots or not; default: FALSE}
 }
