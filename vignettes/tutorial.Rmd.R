@@ -9,5 +9,5 @@ plot(1:10)
 plot(10:1)
 
 ## ---- echo=FALSE, results='asis'-----------------------------------------
-knitr::kable(head(mtcars, 10))
+DT::datatable(head(mtcars, 10))
 
