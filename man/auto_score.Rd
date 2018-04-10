@@ -5,7 +5,7 @@
 \title{auto_score}
 \usage{
 auto_score(folder = choose.dir(), ploidy = 2, min_threshold = 5000,
-  x_range = c(200, 500), channels = 1:5, my.ladder = liz600,
+  x_range = c(200, 500), channels = 1:5, myladder = liz600,
   marker = "mark", quality = 0.9999, plotting = FALSE)
 }
 \arguments{
@@ -19,7 +19,7 @@ auto_score(folder = choose.dir(), ploidy = 2, min_threshold = 5000,
 
 \item{channels}{integer vector; 1:5}
 
-\item{my.ladder}{integer vector: default: LIZ600 values}
+\item{myladder}{integer vector: default: LIZ600 values}
 
 \item{marker}{string; a namer for the marker}
 

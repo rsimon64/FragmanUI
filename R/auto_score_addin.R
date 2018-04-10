@@ -9,7 +9,7 @@ auto_score_addin <- function() {
   ui <- miniUI::miniPage(
     shinyjs::useShinyjs(),
     tags$style(appCSS),
-  miniUI::gadgetTitleBar("Shiny gadget example"),
+  miniUI::gadgetTitleBar("ABI Auto Score Tool"),
   miniUI::miniTabstripPanel(
     miniUI::miniTabPanel("Parameters", icon = shiny::icon("sliders"),
         miniUI::miniContentPanel(
