@@ -99,7 +99,7 @@ auto_score_addin <- function() {
 
         msg <- paste("Results written to", fp)
         message(msg)
-        shiny::showNotification(msg)
+        shiny::showNotification(msg, type = "message")
 
         message("Genotypes with a low overall quality score are:")
         message(paste(names(attr(df, "bad_samples")), collapse = ", "))
