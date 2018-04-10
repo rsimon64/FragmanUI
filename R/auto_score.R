@@ -14,15 +14,6 @@
 #'
 #' @return data.frame of scoring results for each file or individual. Two columns for each marker (diploid).
 #' @export
-#'
-#' @examples
-#'
-#' library(FragmanUI)
-#'
-#' data(liz600)
-#'
-#' res <- auto_score()
-#'
 auto_score <- function(folder = choose.dir(), ploidy = 2,
                        min_threshold = 5000, x_range = c(200, 500),
                        channels = 1:5, my.ladder = liz600, marker = "mark", quality = .9999,

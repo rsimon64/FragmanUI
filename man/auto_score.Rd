@@ -33,12 +33,3 @@ data.frame of scoring results for each file or individual. Two columns for each 
 \description{
 auto_score
 }
-\examples{
-
-library(FragmanUI)
-
-data(liz600)
-
-res <- auto_score()
-
-}

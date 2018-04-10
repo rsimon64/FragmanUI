@@ -12,7 +12,7 @@ www <- system.file("www", package = "FragmanUI")
 alb <- "ajax-loader-bar.gif"
 gif <- file.path(www, alb)
 
-file.copy(gif, file.path(getwd(), alb), overwrite = TRUE)
+#file.copy(gif, file.path(getwd(), alb), overwrite = TRUE)
 
 withBusyIndicatorUI <- function(button) {
   id <- button[['attribs']][['id']]
