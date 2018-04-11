@@ -11,21 +11,21 @@
 alb <- "/www/ajax-loader-bar.gif"
 
 withBusyIndicatorUI <- function(button) {
-  id <- shiny::button[['attribs']][['id']]
+  id <- button[['attribs']][['id']]
   shiny::div(
     `data-for-btn` = id,
     button,
     shiny::span(
       class = "btn-loading-container",
-      hidden(
+      shinyjs::hidden(
         #img(src = alb, class = "btn-loading-indicator"),
-        icon("spinner", class = "btn-loading-indicator"),
-        icon("check", class = "btn-done-indicator")
+        shiny::icon("spinner", class = "btn-loading-indicator"),
+        shiny::icon("check", class = "btn-done-indicator")
       )
     ),
-    shiny::hidden(
+    shinyjs::hidden(
       shiny::div(class = "btn-err",
-                 shiny::div(icon("exclamation-circle"),
+                 shiny::div(shiny::icon("exclamation-circle"),
                             shiny::tags$b("Error: "),
                             shiny::span(class = "btn-err-msg")
           )

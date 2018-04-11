@@ -12,6 +12,7 @@
 #' @param ploidy integer; default 2; not yet implemented in Fragman
 #' @param quality numeric; default: 0.9999. 1 would be highest
 #' @importFrom utils choose.dir
+#' @importFrom magrittr '%>%'
 #'
 #' @return data.frame of scoring results for each file or individual. Two columns for each marker (diploid).
 #' @export
