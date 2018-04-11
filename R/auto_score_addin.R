@@ -8,7 +8,7 @@ auto_score_addin <- function() {
 
   ui <- miniUI::miniPage(
     shinyjs::useShinyjs(),
-    tags$style(appCSS),
+    shiny::tags$style(appCSS),
   miniUI::gadgetTitleBar("ABI Auto Score Tool"),
   miniUI::miniTabstripPanel(id = "inScores",
     miniUI::miniTabPanel("Parameters", id = "params", icon = shiny::icon("sliders"),
@@ -86,7 +86,22 @@ auto_score_addin <- function() {
       withBusyIndicatorServer("runScoresBtn", {
         #Sys.sleep(1)
         #print(path())
-        df <- FragmanUI::auto_score(path())
+
+        ladder <- stringr::str_split(input$ladderSizes, ", ")[[1]] %>% as.integer
+        # message(paste(
+        #   ladder,
+        #   input$channels,
+        #   input$x_range
+        # ))
+
+        df <- FragmanUI::auto_score(
+          folder = path(),
+          channels = input$channels %>% as.integer,
+          min_threshold = input$min_threshold %>% as.integer,
+          x_range = input$x_range %>% as.integer,
+          marker = input$markerName,
+          myladder = ladder
+        )
 
         #message(path())
         bn <- basename(path())
@@ -102,8 +117,21 @@ auto_score_addin <- function() {
         write.csv(df, file = fp)
         output$scoreResults <- DT::renderDataTable(df)
 
-        updateTabsetPanel (session, "inScores",
-                          selected = "results")
+        params <- list(
+          folder = path(),
+          channels = input$channels,
+          min_threshold = input$min_threshold,
+          x_range = input$x_range,
+          marker = input$markerName,
+          ladder = list(
+                      name = input$ladderName,
+                      sizes = input$ladderSizes
+                   )
+        )
+        #names(params)[length(params)] <- input$ladderName
+        #
+        params <- yaml::as.yaml(params)
+        yaml::write_yaml(params, file.path(rn, "params.yaml"))
 
 
         scores <<- df

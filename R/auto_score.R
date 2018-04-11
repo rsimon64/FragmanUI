@@ -19,6 +19,20 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
                        channels = 1:5, myladder = liz600, marker = "mark", quality = .9999,
                        plotting = FALSE) {
 
+  # message(
+  #   paste(
+  #     folder,
+  #     min_threshold,
+  #     x_range,
+  #     channels,
+  #     myladder,
+  #     marker,
+  #     quality,
+  #     plotting,
+  #     sep="\n"
+  #   )
+  # )
+
   score_env <- globalenv()
 
   my.plants <- Fragman::storing.inds(folder)
