@@ -1,6 +1,6 @@
-library(shiny)
-library(shinyjs)
-library(DT)
+# library(shiny)
+# library(shinyjs)
+# library(DT)
 
 
 auto_score_addin <- function() {
@@ -13,18 +13,18 @@ auto_score_addin <- function() {
   miniUI::miniTabstripPanel(id = "inScores",
     miniUI::miniTabPanel("Parameters", id = "params", icon = shiny::icon("sliders"),
         miniUI::miniContentPanel(
-          fluidRow(
-            column(6,
+          shiny::fluidRow(
+            shiny::column(6,
             shinyFiles::shinyDirButton ("dir", "Directory of ABI files", "Choose"),
             shiny::checkboxGroupInput("channels", "Channels",  1:5,
                                       selected = 1:5, inline = TRUE),
             shiny::sliderInput("min_threshold", "Minimum threshold", 0, 10000, 5000, step = 100),
             shiny::sliderInput("x_range", "Base pair range", 0, 1000, c(200, 340) ),
-            h4("Files in selected directory"),
-            verbatimTextOutput("files")
+            shiny::h4("Files in selected directory"),
+            shiny::verbatimTextOutput("files")
 
             ),
-            column(6,
+            shiny::column(6,
             shiny::textInput("ladderName", "Ladder name", "liz600"),
             shiny::textAreaInput("ladderSizes", "Ladder sizes", paste(liz600, collapse=", "),
                                  rows = 5),
@@ -32,7 +32,7 @@ auto_score_addin <- function() {
 
 
             withBusyIndicatorUI(
-              actionButton(
+              shiny::actionButton(
                 "runScoresBtn",
                 "Process files",
                 class = "btn-primary"
@@ -48,7 +48,7 @@ auto_score_addin <- function() {
         ),
         miniUI::miniTabPanel("Results", id ="results", icon = shiny::icon("table"),
             miniUI::miniContentPanel(
-              DTOutput("scoreResults", height = "600px")
+              DT::DTOutput("scoreResults", height = "600px")
             )
         )
 
@@ -77,11 +77,11 @@ auto_score_addin <- function() {
     #cat(path())
 
     # files
-    output$files <- renderPrint(list.files(path()))
+    output$files <- shiny::renderPrint(list.files(path()))
 
     #df <- NULL
 
-    observeEvent(input$runScoresBtn, {
+    shiny::observeEvent(input$runScoresBtn, {
       # When the button is clicked, wrap the code in a call to `withBusyIndicatorServer()`
       withBusyIndicatorServer("runScoresBtn", {
         #Sys.sleep(1)
@@ -114,7 +114,7 @@ auto_score_addin <- function() {
 
         fp <- file.path(rn, "scores.csv")
 
-        write.csv(df, file = fp)
+        utils::write.csv(df, file = fp)
         output$scoreResults <- DT::renderDataTable(df)
 
         params <- list(
@@ -146,16 +146,16 @@ auto_score_addin <- function() {
      })
     })
 
-    observeEvent(input$done, {
+    shiny::observeEvent(input$done, {
 
       message("Resulting scores are also available in the variables 'scores'.")
 
 
-      stopApp()
+      shiny::stopApp()
     })
   }
 
-  viewer <- paneViewer(500)
-  runGadget(ui, server, viewer = viewer)
+  viewer <- shiny::paneViewer(500)
+  shiny::runGadget(ui, server, viewer = viewer)
 
 }
