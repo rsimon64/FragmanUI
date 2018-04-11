@@ -19,45 +19,27 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
                        channels = 1:5, myladder = liz600, marker = "mark", quality = .9999,
                        plotting = FALSE) {
 
-  # print(folder)
-  # print(ploidy)
-  # print(min_threshold)
-  # print(x_range)
-  # print(channels)
-  # print(myladder)
-  # print(marker)
-  # print(quality)
-  # print(plotting)
+  score_env <- globalenv()
 
-  message("1\n")
   my.plants <- Fragman::storing.inds(folder)
-  message("2\n")
-  Fragman::ladder.info.attach(stored=my.plants, ladder=myladder, draw = FALSE)
-  message("3\n")
+  Fragman::ladder.info.attach(stored=my.plants, ladder=myladder, draw = FALSE,
+                              env = score_env)
   my.panel <- Fragman::overview2(my.inds=my.plants, channel = channels,
                         ladder = myladder, xlim = x_range, init.thresh =  min_threshold,
-                         ploidy = ploidy )
-  message("4\n")
+                         ploidy = ploidy, env = score_env )
   fall <- as.data.frame(c(inds = list.files(folder)))
-  names(fall) <- "inds"
 
   message("5\n")
   for(i in seq_along(channels)) {
     chi <- channels[i]
-    message(paste("for ", chi, "\n"))
     chn <- paste0("channel_", chi)
-    #message(my.panel[[chn]])
     res <- Fragman::score.markers(my.inds=my.plants,
                                   channel = chi,
                                   panel=my.panel[[chn]],
-                                  #panel = x_range,
-                                  #ploidy = ploidy,
+                                  env = score_env,
                                   ladder=myladder)
-    message(paste("for res", chi, "\n"))
     fres <- Fragman::get.scores(res)
-    message(paste("for fres", chi, "\n"))
     fnms <- paste0( marker, c(1:ncol(fres)), "_",  chn)
-    message(paste("for fms", chi, "\n"))
     names(fres) <- fnms
     fall <- cbind(fall, fres)
   }
