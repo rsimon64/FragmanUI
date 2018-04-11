@@ -39,29 +39,7 @@ auto_score_addin <- function() {
               )
             )
 
-            # actionButton(
-            #   "runScoresBtn",
-            #
-            #   "Score!",
-            #   class = "btn-primary"
-            #
-            # ),
-            #
-            #
-            # conditionalPanel(condition = 'input.runScoresBtn > 0', id="ncheckSign",
-            #                    style="display: inline-block;",
-            #                    #shinycssloaders::withSpinner(
-            #                      shiny::icon("check")
-            #                    #   , type = 3, size = .2,
-            #                    #   color.background = "white"
-            #                    # )
-            # )
-
-
-
-
             )
-
 
 
           )
