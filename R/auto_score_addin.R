@@ -10,8 +10,8 @@ auto_score_addin <- function() {
     shinyjs::useShinyjs(),
     tags$style(appCSS),
   miniUI::gadgetTitleBar("ABI Auto Score Tool"),
-  miniUI::miniTabstripPanel(
-    miniUI::miniTabPanel("Parameters", icon = shiny::icon("sliders"),
+  miniUI::miniTabstripPanel(id = "inScores",
+    miniUI::miniTabPanel("Parameters", id = "params", icon = shiny::icon("sliders"),
         miniUI::miniContentPanel(
           fluidRow(
             column(6,
@@ -38,12 +38,37 @@ auto_score_addin <- function() {
                 class = "btn-primary"
               )
             )
+
+            # actionButton(
+            #   "runScoresBtn",
+            #
+            #   "Score!",
+            #   class = "btn-primary"
+            #
+            # ),
+            #
+            #
+            # conditionalPanel(condition = 'input.runScoresBtn > 0', id="ncheckSign",
+            #                    style="display: inline-block;",
+            #                    #shinycssloaders::withSpinner(
+            #                      shiny::icon("check")
+            #                    #   , type = 3, size = .2,
+            #                    #   color.background = "white"
+            #                    # )
+            # )
+
+
+
+
             )
+
+
+
           )
 
         )
         ),
-        miniUI::miniTabPanel("Results", icon = shiny::icon("table"),
+        miniUI::miniTabPanel("Results", id ="results", icon = shiny::icon("table"),
             miniUI::miniContentPanel(
               DTOutput("scoreResults", height = "600px")
             )
@@ -67,7 +92,7 @@ auto_score_addin <- function() {
     # path
     path <- shiny::reactive({
       home <- normalizePath("~")
-      #home <- normalizePath(folder)
+
       file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
     })
 
@@ -85,15 +110,23 @@ auto_score_addin <- function() {
         #print(path())
         df <- FragmanUI::auto_score(path())
 
-        bn <- basename(folder)
-        rn <- stringr::str_sub(folder, 1, nchar(folder) - nchar(bn))
+        #message(path())
+        bn <- basename(path())
+        #message(bn)
+        rn <- stringr::str_sub(path(), 1, nchar(path()) - nchar(bn))
         rn <- paste0(rn, "results")
+        #message(rn)
+
         if(!dir.exists(rn)) dir.create(rn)
 
         fp <- file.path(rn, "scores.csv")
 
         write.csv(df, file = fp)
         output$scoreResults <- DT::renderDataTable(df)
+
+        updateTabsetPanel (session, "inScores",
+                          selected = "results")
+
 
         scores <<- df
 
@@ -104,7 +137,7 @@ auto_score_addin <- function() {
         message("Genotypes with a low overall quality score are:")
         message(paste(names(attr(df, "bad_samples")), collapse = ", "))
 
-      })
+     })
     })
 
     observeEvent(input$done, {

@@ -29,7 +29,6 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
                          ploidy = ploidy, env = score_env )
   fall <- as.data.frame(c(inds = list.files(folder)))
 
-  message("5\n")
   for(i in seq_along(channels)) {
     chi <- channels[i]
     chn <- paste0("channel_", chi)
