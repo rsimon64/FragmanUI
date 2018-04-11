@@ -9,7 +9,7 @@ auto_score_addin <- function() {
   ui <- miniUI::miniPage(
     shinyjs::useShinyjs(),
     shiny::tags$style(appCSS),
-  miniUI::gadgetTitleBar("ABI Auto Score Tool"),
+  miniUI::gadgetTitleBar("ABI Batch Score Tool"),
   miniUI::miniTabstripPanel(id = "inScores",
     miniUI::miniTabPanel("Parameters", id = "params", icon = shiny::icon("sliders"),
         miniUI::miniContentPanel(
@@ -115,6 +115,13 @@ auto_score_addin <- function() {
         fp <- file.path(rn, "scores.csv")
 
         utils::write.csv(df, file = fp)
+        bad_samples <- attr(df, "bad_samples")
+
+        fs <- file.path(rn, "samples_low_quality.csv")
+        fs <- stringr::str_replace_all(fs, "\\\\", "/")
+        utils::write.csv(bad_samples, fs)
+
+
         output$scoreResults <- DT::renderDataTable(df)
 
         params <- list(
@@ -134,7 +141,10 @@ auto_score_addin <- function() {
         yaml::write_yaml(params, file.path(rn, "params.yaml"))
 
 
-        scores <<- df
+        scores <- df
+        fp <- stringr::str_replace_all(fp, "\\\\", "/")
+        rstudioapi::sendToConsole(paste0("scores <- read.csv('",fp,"')"), execute = TRUE)
+        rstudioapi::sendToConsole(paste0("samples_low_quality <- read.csv('",fs,"')"), execute = TRUE)
 
         msg <- paste("Results written to", fp)
         message(msg)

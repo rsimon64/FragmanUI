@@ -1,4 +1,4 @@
-Name: ABI reads scores
-Description: Auto scores ABI readings
+Name: ABI Batch Score
+Description: Batch scores ABI readings
 Binding: auto_score_addin
 Interactive: true
