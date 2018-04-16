@@ -53,6 +53,9 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
                                   panel=my.panel[[chn]],
                                   env = score_env,
                                   ladder=myladder)
+    # create gel images for individual markers
+    # create electro gel
+
     fres <- Fragman::get.scores(res)
     fnms <- paste0( marker, c(1:ncol(fres)), "_",  chn)
     names(fres) <- fnms
