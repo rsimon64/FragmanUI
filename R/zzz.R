@@ -8,7 +8,8 @@
                "Favor registrar fallas o sugerencias usando:
                https://github.com/rsimon64/FragmanUI/issues\n")
   packageStartupMessage(txt)
-  data("liz600")
+
+  data(liz600)
 }
 
 .onLoad <- function(libname, pkgname) {

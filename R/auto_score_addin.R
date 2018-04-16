@@ -2,7 +2,6 @@
 # library(shinyjs)
 # library(DT)
 
-
 auto_score_addin <- function() {
 
 
@@ -15,7 +14,7 @@ auto_score_addin <- function() {
         miniUI::miniContentPanel(
           shiny::fluidRow(
             shiny::column(6,
-            shinyFiles::shinyDirButton ("dir", "Seleccionar directorio ABI", "Seleccionar",
+            shinyFiles::shinyDirButton ("dir", "Seleccionar directorio ABI", "OK",
                                         buttonType = "primary"),
             shiny::checkboxGroupInput("channels", "Canales",  1:5,
                                       selected = 1:5, inline = TRUE),
@@ -70,32 +69,25 @@ auto_score_addin <- function() {
       getwd()
     })
 
-    # path
     path <- shiny::reactive({
       home <- normalizePath("~")
 
       file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
     })
 
-    #cat(path())
+    path_results <- shiny::reactive({
+      rn <- stringr::str_sub(path(), 1, nchar(path()) - nchar(basename(path())))
+      rn <- paste0(rn, "results")
+      return(rn)
+    })
 
-    # files
     output$files <- shiny::renderPrint(list.files(path()))
-
-    #df <- NULL
 
     shiny::observeEvent(input$runScoresBtn, {
       # When the button is clicked, wrap the code in a call to `withBusyIndicatorServer()`
       withBusyIndicatorServer("runScoresBtn", {
-        #Sys.sleep(1)
-        #print(path())
 
         ladder <- stringr::str_split(input$ladderSizes, ", ")[[1]] %>% as.integer
-        # message(paste(
-        #   ladder,
-        #   input$channels,
-        #   input$x_range
-        # ))
 
         df <- FragmanUI::auto_score(
           folder = path(),
@@ -107,18 +99,21 @@ auto_score_addin <- function() {
           quality = input$quality %>% as.numeric
         )
 
-        #message(path())
         bn <- basename(path())
-        #message(bn)
-        rn <- stringr::str_sub(path(), 1, nchar(path()) - nchar(bn))
-        rn <- paste0(rn, "results")
-        #message(rn)
+        rn <- path_results()
 
         if(!dir.exists(rn)) dir.create(rn)
 
         fp <- file.path(rn, "scores.csv")
+        utils::write.csv(df, file = fp, row.names = FALSE)
 
-        utils::write.csv(df, file = fp)
+        #also store bin matrix together with quality scores
+        fb <- file.path(rn, "scores_bin.csv")
+        fb <- stringr::str_replace_all(fb, "\\\\", "/")
+        score_bin <- convert_to_binary(scores = df)
+        utils::write.csv(score_bin, file = fb)
+
+
         bad_samples <- attr(df, "bad_samples")
 
         fs <- file.path(rn, "samples_low_quality.csv")
@@ -140,20 +135,13 @@ auto_score_addin <- function() {
                    ),
           quality_threshold = input$quality
         )
-        #names(params)[length(params)] <- input$ladderName
-        #
         params <- yaml::as.yaml(params)
         yaml::write_yaml(params, file.path(rn, "params.yaml.txt"))
 
 
         scores <- df
-        fp <- stringr::str_replace_all(fp, "\\\\", "/")
-        rstudioapi::sendToConsole(paste0("scores <- read.csv('",fp,"')"), execute = TRUE)
-        rstudioapi::sendToConsole(paste0("samples_low_quality <- read.csv('",fs,"')"), execute = TRUE)
 
-        msg <- paste("Resultados grabados en", fp)
-        message(msg)
-        shiny::showNotification(msg, type = "message")
+
 
         message("Genotipos de baja calidad son:")
         message(paste(names(attr(df, "bad_samples")), collapse = ", "))
@@ -163,7 +151,19 @@ auto_score_addin <- function() {
 
     shiny::observeEvent(input$done, {
 
-      message("Escoreos are dispopnibles en la variable 'scores'.")
+      message("Escoreos are dispopnibles en la variable 'scores' e en 'scores_bin'.")
+
+      fp <- stringr::str_replace_all(path_results(), "\\\\", "/")
+      fc <- file.path(fp, "scores.csv")
+      fb <- file.path(fp, "scores_bin.csv")
+      fs <- file.path(fp, "samples_low_quality.csv")
+      rstudioapi::sendToConsole(paste0("scores <- read.csv('",fc,"')"), execute = TRUE)
+      rstudioapi::sendToConsole(paste0("samples_low_quality <- read.csv('",fs,"')"), execute = TRUE)
+      rstudioapi::sendToConsole(paste0("scores_bin <- read.csv('",fb,"')"), execute = TRUE)
+
+      msg <- paste("Resultados grabados en", fp)
+
+      message(msg)
 
 
       shiny::stopApp()
