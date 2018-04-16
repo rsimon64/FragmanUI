@@ -4,6 +4,8 @@
 
 auto_score_addin <- function() {
 
+  library(FragmanUI)
+  data(liz600)
 
   ui <- miniUI::miniPage(
     shinyjs::useShinyjs(),
