@@ -78,8 +78,7 @@ auto_score_addin <- function() {
     })
 
     path_results <- shiny::reactive({
-      rn <- stringr::str_sub(path(), 1, nchar(path()) - nchar(basename(path())))
-      rn <- paste0(rn, "results")
+      rn <- get_results_dir(path())
       return(rn)
     })
 

@@ -5,8 +5,8 @@
 \title{auto_score}
 \usage{
 auto_score(folder = choose.dir(), ploidy = 2, min_threshold = 5000,
-  x_range = c(200, 500), channels = 1:5, myladder = liz600,
-  marker = "mark", quality = 0.9999, plotting = FALSE)
+  x_range = c(200, 350), channels = 1:5, myladder = liz600,
+  marker = "mark", quality = 0.9999, plotting = TRUE)
 }
 \arguments{
 \item{folder}{string path to a folder with only ABI files}
