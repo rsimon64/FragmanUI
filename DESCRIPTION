@@ -1,6 +1,6 @@
 Package: FragmanUI
 Title: User Interface for Fragman
-Version: 0.0.2.9000
+Version: 0.0.3.9000
 Authors@R: person("Reinhard", "Simon", email = "rsimon64@gmail.com", role = c("aut", "cre"))
 Description: Provides graphical widgets for RStudio to score ABI files based on the functions in the 
   fragman package plus a few convenience functions.
