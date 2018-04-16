@@ -1,8 +1,22 @@
 
-convert_to_binary <- function(scores) {
+#' Convert To Binary
+#'
+#' @param scores data.frame of score results
+#'
+#' @return a data.frame
+#' @export
+#'
+#' @examples
+#'
+#' # library(FragmanUI)
+#' #
+#' # scores <- auto_score()
+#' # score_bin <- convert_to_binary(scores)
+convert_to_binary <- function(scores = NULL) {
 
   # in pairs of columns!
   # TODO: some minimal checks
+  stopifnot(!is.null(scores))
 
 
   names(scores)[1] <- "ids"
@@ -50,7 +64,7 @@ convert_to_binary <- function(scores) {
 
 
   for(k in seq_along(sets)) {
-    message(paste(sets[k], "\n"))
+
     res <- num_to_bin(scores, sets[k])
     res_bin <- cbind(res_bin, res)
   }
