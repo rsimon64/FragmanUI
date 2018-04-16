@@ -1,4 +1,4 @@
-Name: ABI Batch Score
-Description: Batch scores ABI readings
+Name: ABI Escoreo en Lote
+Description: ABI Escoreo en Lote
 Binding: auto_score_addin
 Interactive: true

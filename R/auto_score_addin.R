@@ -9,32 +9,32 @@ auto_score_addin <- function() {
   ui <- miniUI::miniPage(
     shinyjs::useShinyjs(),
     shiny::tags$style(appCSS),
-  miniUI::gadgetTitleBar("ABI Batch Score Tool"),
+  miniUI::gadgetTitleBar("ABI Escoreo en Lote"),
   miniUI::miniTabstripPanel(id = "inScores",
-    miniUI::miniTabPanel("Parameters", id = "params", icon = shiny::icon("sliders"),
+    miniUI::miniTabPanel("Parametros", id = "params", icon = shiny::icon("sliders"),
         miniUI::miniContentPanel(
           shiny::fluidRow(
             shiny::column(6,
-            shinyFiles::shinyDirButton ("dir", "Directory of ABI files", "Choose"),
-            shiny::checkboxGroupInput("channels", "Channels",  1:5,
+            shinyFiles::shinyDirButton ("dir", "Directorio archivos ABI", "Choose"),
+            shiny::checkboxGroupInput("channels", "Canales",  1:5,
                                       selected = 1:5, inline = TRUE),
-            shiny::sliderInput("min_threshold", "Minimum threshold", 0, 10000, 5000, step = 100),
-            shiny::sliderInput("x_range", "Base pair range", 0, 1000, c(200, 340) ),
-            shiny::h4("Files in selected directory"),
+            shiny::sliderInput("min_threshold", "Umbral mínimo", 0, 10000, 5000, step = 100),
+            shiny::sliderInput("x_range", "Rango bp", 0, 1000, c(200, 340) ),
+            shiny::h4("Archivos en el directorio seleccionado"),
             shiny::verbatimTextOutput("files")
 
             ),
             shiny::column(6,
-            shiny::textInput("ladderName", "Ladder name", "liz600"),
-            shiny::textAreaInput("ladderSizes", "Ladder sizes", paste(liz600, collapse=", "),
+            shiny::textInput("ladderName", "Nombre de escalera", "liz600"),
+            shiny::textAreaInput("ladderSizes", "Pesos de escalera", paste(liz600, collapse=", "),
                                  rows = 5),
-            shiny::textInput("markerName", "Marker name", value = "marker"),
+            shiny::textInput("markerName", "Nombre de marcador", value = "marker"),
 
 
             withBusyIndicatorUI(
               shiny::actionButton(
                 "runScoresBtn",
-                "Process files",
+                "Procesar archivos",
                 class = "btn-primary"
               )
             )
@@ -46,7 +46,7 @@ auto_score_addin <- function() {
 
         )
         ),
-        miniUI::miniTabPanel("Results", id ="results", icon = shiny::icon("table"),
+        miniUI::miniTabPanel("Resultados", id ="results", icon = shiny::icon("table"),
             miniUI::miniContentPanel(
               DT::DTOutput("scoreResults", height = "600px")
             )
