@@ -15,7 +15,8 @@ auto_score_addin <- function() {
         miniUI::miniContentPanel(
           shiny::fluidRow(
             shiny::column(6,
-            shinyFiles::shinyDirButton ("dir", "Directorio archivos ABI", "Choose"),
+            shinyFiles::shinyDirButton ("dir", "Seleccionar directorio ABI", "Seleccionar",
+                                        buttonType = "primary"),
             shiny::checkboxGroupInput("channels", "Canales",  1:5,
                                       selected = 1:5, inline = TRUE),
             shiny::sliderInput("min_threshold", "Umbral mínimo", 0, 10000, 5000, step = 100),
@@ -29,6 +30,8 @@ auto_score_addin <- function() {
             shiny::textAreaInput("ladderSizes", "Pesos de escalera", paste(liz600, collapse=", "),
                                  rows = 5),
             shiny::textInput("markerName", "Nombre de marcador", value = "marker"),
+            shiny::numericInput("quality", "Lumbral calidad de genotipo", value = .9999,
+                                min = 0.8, max = 1.0),
 
 
             withBusyIndicatorUI(
@@ -100,7 +103,8 @@ auto_score_addin <- function() {
           min_threshold = input$min_threshold %>% as.integer,
           x_range = input$x_range %>% as.integer,
           marker = input$markerName,
-          myladder = ladder
+          myladder = ladder,
+          quality = input$quality %>% as.numeric
         )
 
         #message(path())
@@ -133,12 +137,13 @@ auto_score_addin <- function() {
           ladder = list(
                       name = input$ladderName,
                       sizes = input$ladderSizes
-                   )
+                   ),
+          quality_threshold = input$quality
         )
         #names(params)[length(params)] <- input$ladderName
         #
         params <- yaml::as.yaml(params)
-        yaml::write_yaml(params, file.path(rn, "params.yaml"))
+        yaml::write_yaml(params, file.path(rn, "params.yaml.txt"))
 
 
         scores <- df
@@ -146,11 +151,11 @@ auto_score_addin <- function() {
         rstudioapi::sendToConsole(paste0("scores <- read.csv('",fp,"')"), execute = TRUE)
         rstudioapi::sendToConsole(paste0("samples_low_quality <- read.csv('",fs,"')"), execute = TRUE)
 
-        msg <- paste("Results written to", fp)
+        msg <- paste("Resultados grabados en", fp)
         message(msg)
         shiny::showNotification(msg, type = "message")
 
-        message("Genotypes with a low overall quality score are:")
+        message("Genotipos de baja calidad son:")
         message(paste(names(attr(df, "bad_samples")), collapse = ", "))
 
      })
@@ -158,7 +163,7 @@ auto_score_addin <- function() {
 
     shiny::observeEvent(input$done, {
 
-      message("Resulting scores are also available in the variables 'scores'.")
+      message("Escoreos are dispopnibles en la variable 'scores'.")
 
 
       shiny::stopApp()

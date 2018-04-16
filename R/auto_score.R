@@ -60,7 +60,7 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
   }
 
   corro <- unlist(lapply(list.data.covarrubias, function(x){x$corr}))
-  bad_samples <- corro[corro < quality]
+  bad_samples <- corro[corro <= quality]
 
   attr(fall, "bad_samples" ) <- bad_samples
 
