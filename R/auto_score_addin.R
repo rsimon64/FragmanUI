@@ -172,7 +172,7 @@ auto_score_addin <- function() {
     })
   }
 
-  viewer <- shiny::paneViewer(500)
+  viewer <- shiny::browserViewer()
   shiny::runGadget(ui, server, viewer = viewer)
 
 }
