@@ -1,0 +1,18 @@
+---
+title: 'Reporte basico de escoreo con ABI'
+author: FragmanUI
+output: html_document
+---
+
+# ID: {{orgid}}
+
+*Calidad genotipo: {{quality}}*
+
+
+|  Color |  Gel virtual | Corrida individual | Bp scored|
+|--:|--:|--:|--:|
+{{#scans}}
+|  {{channel_id}}| ![]({{electro}})  | ![]({{ascan}})  | {{mscores}}|
+{{/scans}}
+
+
