@@ -107,13 +107,14 @@ auto_score_addin <- function() {
 
         fp <- file.path(rn, "scores.csv")
         utils::write.csv(df, file = fp, row.names = FALSE)
+        saveRDS(df, file = file.path(rn, "scores.Rds"))
 
         #also store bin matrix together with quality scores
         fb <- file.path(rn, "scores_bin.csv")
         fb <- stringr::str_replace_all(fb, "\\\\", "/")
         score_bin <- convert_to_binary(scores = df)
         utils::write.csv(score_bin, file = fb)
-
+        saveRDS(score_bin, file = file.path(rn, "scores_bin.Rds"))
 
         bad_samples <- attr(df, "bad_samples")
 
@@ -155,6 +156,9 @@ auto_score_addin <- function() {
       message("Escoreos are dispopnibles en la variable 'scores' e en 'scores_bin'.")
 
       fp <- stringr::str_replace_all(path_results(), "\\\\", "/")
+
+
+
       fc <- file.path(fp, "scores.csv")
       fb <- file.path(fp, "scores_bin.csv")
       fs <- file.path(fp, "samples_low_quality.csv")

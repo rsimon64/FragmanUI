@@ -3,4 +3,3 @@
 export(auto_score)
 export(convert_to_binary)
 importFrom(magrittr,'%>%')
-importFrom(utils,choose.dir)
