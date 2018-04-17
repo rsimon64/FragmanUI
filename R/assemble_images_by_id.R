@@ -33,10 +33,10 @@ assemble_images_by_id <- function(folder) {
     report_env <- globalenv()
   #i = 2
     sbidi <- sbid[i]
-    ascan <- paste0("../../images/", sbnms[i], "_channel_", paste0(channel_id, ".png"))
+    ascan <- paste0("../../../images/", sbnms[i], "_channel_", paste0(channel_id, ".png"))
     # check if indeed present
     # all(file.exists(file.path(image_dir, scimg)))
-    electro <- paste0("../../images/electro_gel_channel_", paste0(channel_id, ".png"))
+    electro <- paste0("../../../images/electro_gel_channel_", paste0(channel_id, ".png"))
 
     mscores <- sr[i, c(2: ncol(sr))]
     sets <- seq(1, ncol(mscores), 2)
