@@ -15,3 +15,5 @@ Suggests: testthat,
     covr
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
+URL: https://github.com/rsimon64/FragmanUI
+BugReports: https://github.com/rsimon64/FragmanUI/issues
