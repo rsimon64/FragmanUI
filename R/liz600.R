@@ -9,7 +9,7 @@
 #'
 #' @keywords datasets
 #'
-#' @references (\href{Data from https://www.thermofisher.com/order/catalog/product/4408399.}{Thermo Fischer})
+#' @references Data from (\href{https://www.thermofisher.com/order/catalog/product/4408399.}{Thermo Fischer})
 #'
 #' @examples
 #' data(liz600)

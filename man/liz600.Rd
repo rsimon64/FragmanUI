@@ -15,6 +15,6 @@ Ladder sizes for LIZ 600
 data(liz600)
 }
 \references{
-(\href{Data from https://www.thermofisher.com/order/catalog/product/4408399.}{Thermo Fischer})
+Data from (\href{https://www.thermofisher.com/order/catalog/product/4408399.}{Thermo Fischer})
 }
 \keyword{datasets}
