@@ -13,6 +13,8 @@ Ladder sizes for LIZ 600
 }
 \examples{
 data(liz600)
+
+liz600
 }
 \references{
 Data from (\href{https://www.thermofisher.com/order/catalog/product/4366589?SID=srch-srp-4366589}{Thermo Fischer LIZ 600 ladder})

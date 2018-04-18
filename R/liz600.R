@@ -13,4 +13,6 @@
 #'
 #' @examples
 #' data(liz600)
+#'
+#' liz600
 "liz600"
