@@ -166,11 +166,12 @@ auto_score_addin <- function() {
       rstudioapi::sendToConsole(paste0("samples_low_quality <- read.csv('",fs,"')"), execute = TRUE)
       rstudioapi::sendToConsole(paste0("scores_bin <- read.csv('",fb,"')"), execute = TRUE)
 
+
       msg <- paste("Resultados grabados en", fp)
 
       message(msg)
 
-
+      FragmanUI:::assemble_images_by_id(path())
       shiny::stopApp()
     })
   }

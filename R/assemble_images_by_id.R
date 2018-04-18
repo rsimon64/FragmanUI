@@ -33,7 +33,7 @@ assemble_images_by_id <- function(folder) {
   tpl <- readLines(tpl)
   # from there construct list of images and resulting summary images
   #print(sr)
-  print(sbnms)
+  #print(sbnms)
 
   for(ii in seq_along(sbid)) {
 
@@ -80,7 +80,7 @@ assemble_images_by_id <- function(folder) {
     # fn <- stringr::str_replace_all(sbid[i], "_", "-")
     # fn <- stringr::str_replace_all(fn, "-", "")
     # fn <- stringr::str_replace_all(fn, "\\.", "")
-    writeLines(sbidmd, file.path(report_dir, paste0(paste0(sbid[ii], ".Rmd"))))
+    writeLines(sbidmd, file.path(report_dir, paste0(sbid[ii], ".Rmd")))
     #rmarkdown::render(paste0(sbid[i], ".md"), output_file = paste0(sbid[i], ".html"))
 
   }
