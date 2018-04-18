@@ -9,7 +9,7 @@
 #'
 #' @keywords datasets
 #'
-#' @references Data from (\href{https://www.thermofisher.com/order/catalog/product/4408399.}{Thermo Fischer})
+#' @references Data from (\href{https://www.thermofisher.com/order/catalog/product/4366589?SID=srch-srp-4366589}{Thermo Fischer LIZ 600 ladder})
 #'
 #' @examples
 #' data(liz600)
