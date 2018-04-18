@@ -2,3 +2,8 @@ Name: ABI Escoreo en Lote
 Description: ABI Escoreo en Lote
 Binding: auto_score_addin
 Interactive: true
+
+Name: ABI Reporte Basico
+Description: ABI Reporte Basico
+Binding: do_report_basic_addin
+Interactive: false

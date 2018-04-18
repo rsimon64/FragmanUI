@@ -1,4 +1,4 @@
-assemble_images_by_id <- function(folder) {
+do_report_basic <- function(folder) {
 
   library(magrittr)
   results_dir <- get_results_dir(folder)
@@ -86,9 +86,17 @@ assemble_images_by_id <- function(folder) {
   }
 
   # copy over an index file from templates, too.
-  src <- system.file(file.path("templates", "reports", "index.Rmd"), package = "FragmanUI")
-  tgt <- file.path(report_dir, "index.Rmd")
-  file.copy(src, tgt)
+  src <- system.file(file.path("templates", "reports", "index.moustache"), package = "FragmanUI")
+  # tgt <- file.path(report_dir, "index.Rmd")
+  # file.copy(src, tgt)
+
+  tpl <- readLines(src)
+
+  scb <- withr::with_dir(report_dir, {
+    whisker::whisker.render(tpl, data = list(results_dir = results_dir))
+  })
+  writeLines(scb, file.path(report_dir, paste0("index.Rmd")))
+
 
   # run bookdown using withr::with_dir !
   unlink(file.path(report_dir, "_reporte"), recursive = TRUE, force = TRUE)
