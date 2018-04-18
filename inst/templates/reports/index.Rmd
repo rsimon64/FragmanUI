@@ -1,0 +1,29 @@
+---
+title: "Fragman Reporte"
+author: "FragmanUI, `r Sys.time()`"
+site: bookdown::bookdown_site
+documentclass: book
+output:
+  bookdown::gitbook:
+    config:
+      toc:
+        collapse: subsection
+        scroll_highlight: yes
+        before: null
+        after: null
+      toolbar:
+        position: fixed
+      edit : null
+      download: null
+      search: null
+      fontsettings:
+        theme: white
+        family: sans
+        size: 2
+      sharing: null
+---
+
+# Antecedentes
+
+Este reporte ha sido generado automáticamente.
+

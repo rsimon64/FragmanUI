@@ -4,16 +4,21 @@ assemble_images_by_id <- function(folder) {
   results_dir <- get_results_dir(folder)
   image_dir <- file.path(results_dir, "images")
   report_dir <- file.path(results_dir, "reports", "basic")
+  #message(report_dir)
   if(!dir.exists(report_dir)) {
     dir.create(report_dir)
   }
+
+  #withr::with_dir(report_dir, {
+
+
 
   # get list of unique ids
   sr <- readRDS(file.path(results_dir, 'scores.Rds'))
   sb <- readRDS(file.path(results_dir, 'scores_bin.Rds'))
 
   sbnms <- sb %>% row.names()#  %>% unique  %>% sort()
-
+  #message(sbnms)
 
   # assemble a markdown page with table of images channels(rows) by types(columns).
   # column: channel id, electro gel, individual reading
@@ -27,20 +32,25 @@ assemble_images_by_id <- function(folder) {
   tpl <- system.file("templates/reports/basic_gel_by_id.moustache", package = "FragmanUI")
   tpl <- readLines(tpl)
   # from there construct list of images and resulting summary images
+  #print(sr)
+  print(sbnms)
 
+  for(ii in seq_along(sbid)) {
 
-  for(i in 1:length(sbid)) {
-    report_env <- globalenv()
   #i = 2
-    sbidi <- sbid[i]
-    ascan <- paste0("../../../images/", sbnms[i], "_channel_", paste0(channel_id, ".png"))
+    sbidi <- sbid[ii]
+    #print(sbidi)
+    ascan <- paste0(image_dir, "/", sbnms[ii], "_channel_", paste0(channel_id, ".png"))
     # check if indeed present
     # all(file.exists(file.path(image_dir, scimg)))
-    electro <- paste0("../../../images/electro_gel_channel_", paste0(channel_id, ".png"))
+    electro <- paste0(image_dir, "/electro_gel_channel_", paste0(channel_id, ".png"))
+    #print(ascan)
+    #print(electro)
 
-    mscores <- sr[i, c(2: ncol(sr))]
+    mscores <- sr[ii, c(2: ncol(sr))]
     sets <- seq(1, ncol(mscores), 2)
     mdf <- as.data.frame(cbind(m1 = 0, m2 = 0))
+    #print(sets)
     for(j in seq_along(sets)) {
       #print(sets[j])
       mr <- mscores[c(sets[j],sets[j]+1)]
@@ -50,27 +60,43 @@ assemble_images_by_id <- function(folder) {
       mdf <- rbind(mdf, mr)
     }
     mdf <- mdf[-1, ]
+    #print(mdf)
     mscores <- rep(NA, nrow(mdf))
     for(j in 1:nrow(mdf)) {
       mscores[j] <- paste(round(mdf[j, ], 4), collapse = " " )
     }
 
-
+    report_env <- globalenv()
     scans <- as.data.frame(cbind(channel_id, ascan, electro, mscores))
     scans <- unname(whisker::rowSplit(scans))
-    orgid <- sbid[i]
-    quality <- round(sb$quality[i], 4)
-    sbidmd <- whisker::whisker.render(tpl,data = report_env)
+    #print(scans)
+    orgid <- sbid[ii]
+    quality <- round(sb$quality[ii], 4)
+    sbidmd <- withr::with_dir(report_dir, {
+      whisker::whisker.render(tpl, data = list(scans = scans, orgid = orgid, quality = quality))
+    })
+
 
     # fn <- stringr::str_replace_all(sbid[i], "_", "-")
     # fn <- stringr::str_replace_all(fn, "-", "")
     # fn <- stringr::str_replace_all(fn, "\\.", "")
-    writeLines(sbidmd, paste0(sbid[i], ".Rmd"))
+    writeLines(sbidmd, file.path(report_dir, paste0(paste0(sbid[ii], ".Rmd"))))
     #rmarkdown::render(paste0(sbid[i], ".md"), output_file = paste0(sbid[i], ".html"))
 
   }
-  # cycle through images and create pages in bookdown format in a new sub directory for reports
-  # within that a new subdirectory for this type of report 'basic'
+
+  # copy over an index file from templates, too.
+  src <- system.file(file.path("templates", "reports", "index.Rmd"), package = "FragmanUI")
+  tgt <- file.path(report_dir, "index.Rmd")
+  file.copy(src, tgt)
+
+  # run bookdown using withr::with_dir !
+  unlink(file.path(report_dir, "_reporte"), recursive = TRUE, force = TRUE)
+  #})
+  withr::with_dir(report_dir, {
+    bookdown::render_book(list.files(pattern=".Rmd"), output_dir = "_reporte")
+  })
+  browseURL(file.path(report_dir, "_reporte", "index.html"))
 
   # then transfer additional files from templates (index.Rmd, corr.Rmd)
 
