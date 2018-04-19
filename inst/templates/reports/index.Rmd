@@ -27,3 +27,38 @@ output:
 
 Este reporte ha sido generado automáticamente.
 
+## Gráfico de los datos crudos
+
+```{r , echo=FALSE, message=FALSE}
+
+folder <- "{{results_dir}}"
+
+scores_bin <- readRDS(file.path(folder, "scores_bin.Rds"))
+
+scorebin <- scores_bin[, -c(1,2)]
+#rownames(scorebin) <- scores_bin[, 1]
+
+d3heatmap::d3heatmap(scorebin, colors = c("white", "grey", "black"))
+
+```
+
+## Tabla
+
+```{r , echo=FALSE, message=FALSE}
+
+DT::datatable(scores_bin)
+
+```
+
+
+## Dendrograma
+
+
+```{r , echo=FALSE}
+
+dend <- agricolae::consensus(scores_bin)$dendrogram
+plot(dend)
+
+```
+
+

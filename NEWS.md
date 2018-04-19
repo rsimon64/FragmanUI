@@ -1,5 +1,10 @@
 # FragmanUI 0.0.4.9000
 
+* Stability improvements
+* Report improvements
+
+# FragmanUI 0.0.4.9000
+
 * Added a minimal report addin.
 * Add sample data to the site.
 

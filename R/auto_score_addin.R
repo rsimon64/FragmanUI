@@ -172,7 +172,7 @@ auto_score_addin <- function() {
 
       message(msg)
 
-      FragmanUI:::assemble_images_by_id(path())
+      FragmanUI:::do_report_basic(path())
       shiny::stopApp()
     })
   }

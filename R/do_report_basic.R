@@ -2,6 +2,9 @@ do_report_basic <- function(folder) {
 
   library(magrittr)
   results_dir <- get_results_dir(folder)
+
+  results_dir <- stringr::str_replace_all(results_dir, "\\\\", "/")
+
   image_dir <- file.path(results_dir, "images")
   report_dir <- file.path(results_dir, "reports", "basic")
   #message(report_dir)
@@ -86,7 +89,7 @@ do_report_basic <- function(folder) {
   }
 
   # copy over an index file from templates, too.
-  src <- system.file(file.path("templates", "reports", "index.moustache"), package = "FragmanUI")
+  src <- system.file(file.path("templates", "reports", "index.Rmd"), package = "FragmanUI")
   # tgt <- file.path(report_dir, "index.Rmd")
   # file.copy(src, tgt)
 
