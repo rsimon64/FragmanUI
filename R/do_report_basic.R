@@ -9,7 +9,7 @@ do_report_basic <- function(folder) {
   report_dir <- file.path(results_dir, "reports", "basic")
   #message(report_dir)
   if(!dir.exists(report_dir)) {
-    dir.create(report_dir)
+    dir.create(report_dir, recursive = TRUE)
   }
 
   #withr::with_dir(report_dir, {

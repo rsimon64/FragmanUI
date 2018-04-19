@@ -165,7 +165,8 @@ auto_score_addin <- function() {
       rstudioapi::sendToConsole(paste0("scores <- read.csv('",fc,"')"), execute = TRUE)
       rstudioapi::sendToConsole(paste0("samples_low_quality <- read.csv('",fs,"')"), execute = TRUE)
       rstudioapi::sendToConsole(paste0("scores_bin <- read.csv('",fb,"')"), execute = TRUE)
-      rstudioapi::sendToConsole(paste0("folder <- '", path(), "'"), execute = TRUE)
+      rstudioapi::sendToConsole(paste0("folder <- '",
+                                       stringr::str_replace_all(path(), "\\\\", "/"), "'"), execute = TRUE)
 
 
       msg <- paste("Resultados grabados en", fp)
