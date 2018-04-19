@@ -57,7 +57,7 @@ DT::datatable(scores_bin)
 ```{r , echo=FALSE}
 
 dend <- agricolae::consensus(scores_bin)$dendrogram
-plot(dend)
+
 
 ```
 
