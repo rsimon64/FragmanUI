@@ -2,4 +2,5 @@
 
 export(auto_score)
 export(convert_to_binary)
+export(run_fran)
 importFrom(magrittr,'%>%')

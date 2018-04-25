@@ -6,6 +6,10 @@ ui_abi <- function() {
   ui <- shiny::fluidRow(
 
     shiny::column(6,
+                  shiny::actionButton(
+                    "testBtn",
+                    "Procesar archivos 2"
+                  ),
                   shinyFiles::shinyDirButton ("dir", "Seleccionar directorio ABI", "OK",
                                               buttonType = "primary"),
                   shiny::checkboxGroupInput("channels", "Canales",  1:5,

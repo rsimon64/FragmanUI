@@ -13,6 +13,11 @@ sv_abi <- function(input, output, session) {
     file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
   })
 
+  shiny::observeEvent(input$testBtn, {
+    x <- choose.dir()
+    message(x)
+  })
+
   path_results <- shiny::reactive({
     rn <- get_results_dir(path())
     return(rn)

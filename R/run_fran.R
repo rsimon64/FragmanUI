@@ -1,12 +1,30 @@
-
-run_fran <- function(ui = FragmanUI:::ui_app, sv = FragmanUI:::sv_app, port = 9876, browser = TRUE) {
+#' run_fran
+#'
+#' Runs a shiny app to analyze sequence fragments.
+#'
+#' Uses Fragman in the backend.
+#'
+#' @param port integer, default 9876
+#'
+#' @return NULL invisible
+#' @author Reinhard Simon
+#' @export
+#'
+#' @examples
+#'
+#' if(interactive()) {
+#'    Fragman::run_fran()
+#' }
+#'
+run_fran <- function(port = 9876) {
 
   shiny::shinyApp(
-    ui = ui,
-    server = sv,
+    ui = ui_app,
+    server = sv_app,
     options = list(
       port = port,
-      launch.browser = browser
+      launch.browser = TRUE
     )
   )
+
 }
