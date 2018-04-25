@@ -6,18 +6,16 @@ ui_abi <- function() {
   ui <- shiny::fluidRow(
 
     shiny::column(6,
-                  shiny::actionButton(
-                    "testBtn",
-                    "Procesar archivos 2"
-                  ),
-                  shinyFiles::shinyDirButton ("dir", "Seleccionar directorio ABI", "OK",
-                                              buttonType = "primary"),
+                  shinyFiles::shinyDirButton('btnAbiDir', 'Folder select', 'Please select a folder',
+                                             class = "btn-primary"),
+
+                  shiny::h4("Archivos en el directorio seleccionado"),
+                  shiny::verbatimTextOutput("files")
+                  ,
                   shiny::checkboxGroupInput("channels", "Canales",  1:5,
                                             selected = 1:5, inline = TRUE),
                   shiny::sliderInput("min_threshold", "Umbral mínimo", 0, 10000, 5000, step = 100),
-                  shiny::sliderInput("x_range", "Rango bp", 0, 1000, c(200, 340) ),
-                  shiny::h4("Archivos en el directorio seleccionado"),
-                  shiny::verbatimTextOutput("files")
+                  shiny::sliderInput("x_range", "Rango bp", 0, 1000, c(200, 340) )
 
     ),
     shiny::column(6,
@@ -30,13 +28,13 @@ ui_abi <- function() {
 
                   shiny::fluidRow(
                     shiny::column(6,
-                                  withBusyIndicatorUI(
+                                  #withBusyIndicatorUI(
                                     shiny::actionButton(
                                       "runScoresBtn",
                                       "Procesar archivos",
                                       class = "btn-primary"
                                     )
-                                  )
+                                  #)
                                   )
                     ,
                     shiny::column(6 ,

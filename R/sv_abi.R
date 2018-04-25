@@ -1,21 +1,15 @@
 sv_abi <- function(input, output, session) {
-  shinyFiles::shinyDirChoose(input, 'dir', roots = c(home = '~'), filetypes = c('abi', 'fsa'))
-  dir <- shiny::reactive(input$dir)
-  output$dir <- shiny::renderPrint(dir())
+ # vals <- reactiveValues(repo_path = NULL)
+  volumes <- c('ABI folder' = get_repo(), "Base" = Sys.getenv("Home"))
+  shinyFiles::shinyDirChoose(input, 'btnAbiDir', roots = volumes, session=session)
 
-  old_path <- shiny::reactive({
-    getwd()
-  })
+  # path <- shiny::eventReactive(input$btnAbiDir, {
+  #   repo <- get_repo()
+  #   select_folder(repo, "Seleccionar folder")
+  # })
 
   path <- shiny::reactive({
-    home <- normalizePath("~")
-
-    file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
-  })
-
-  shiny::observeEvent(input$testBtn, {
-    x <- choose.dir()
-    message(x)
+    shinyFiles::parseDirPath(volumes, input$btnAbiDir)
   })
 
   path_results <- shiny::reactive({
@@ -23,13 +17,20 @@ sv_abi <- function(input, output, session) {
     return(rn)
   })
 
-  output$files <- shiny::renderPrint(list.files(path()))
+  output$files <- shiny::renderPrint({
+
+    message(list.files(path()) )
+    list.files(path())
+  })
 
   shiny::observeEvent(input$runScoresBtn, {
     # When the button is clicked, wrap the code in a call to `withBusyIndicatorServer()`
-    withBusyIndicatorServer("runScoresBtn", {
+    #withBusyIndicatorServer("runScoresBtn", {
+    withProgress(message = 'Procesando ...', style = "notification", value = 0.1, {
 
       ladder <- stringr::str_split(input$ladderSizes, ", ")[[1]] %>% as.integer
+
+      #message(path())
 
       df <- FragmanUI::auto_score(
         folder = path(),
@@ -89,7 +90,8 @@ sv_abi <- function(input, output, session) {
       message("Genotipos de baja calidad son:")
       message(paste(names(attr(df, "bad_samples")), collapse = ", "))
 
-    })
+    }
+    )
   })
 
   return(list(path = path, path_results = path_results))
