@@ -24,22 +24,30 @@ ui_abi <- function() {
                   shiny::numericInput("quality", "Lumbral calidad de genotipo", value = .9999,
                                       min = 0.8, max = 1.0),
 
-
-                  withBusyIndicatorUI(
-                    shiny::actionButton(
-                      "runScoresBtn",
-                      "Procesar archivos",
-                      class = "btn-primary"
+                  shiny::fluidRow(
+                    shiny::column(6,
+                                  withBusyIndicatorUI(
+                                    shiny::actionButton(
+                                      "runScoresBtn",
+                                      "Procesar archivos",
+                                      class = "btn-primary"
+                                    )
+                                  )
+                                  )
+                    ,
+                    shiny::column(6 ,
+                                  shiny::tags$button(
+                                    id = 'close',
+                                    type = "button",
+                                    class = "btn action-button",
+                                    #class = "btn-warning",
+                                    onclick = "setTimeout(function(){window.close();}, 10);",  # close browser
+                                    "Close window"
+                                  )
                     )
                   )
-                  ,
-                  shiny::tags$button(
-                    id = 'close',
-                    type = "button",
-                    class = "btn action-button",
-                    onclick = "setTimeout(function(){window.close();}, 10);",  # close browser
-                    "Close window"
-                  )
+
+
 
     )
 
