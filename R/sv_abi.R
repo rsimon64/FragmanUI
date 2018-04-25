@@ -24,9 +24,10 @@ sv_abi <- function(input, output, session) {
   })
 
   shiny::observeEvent(input$runScoresBtn, {
-    # When the button is clicked, wrap the code in a call to `withBusyIndicatorServer()`
-    #withBusyIndicatorServer("runScoresBtn", {
-    withProgress(message = 'Procesando ...', style = "notification", value = 0.1, {
+    shiny::updateActionButton(session, "runScoresBtn", label ="Procesando", icon = shiny::icon("spinner"))
+
+    withProgress(message = 'Procesando ...', style = "notification", value = 1, {
+
 
       ladder <- stringr::str_split(input$ladderSizes, ", ")[[1]] %>% as.integer
 
@@ -89,6 +90,8 @@ sv_abi <- function(input, output, session) {
 
       message("Genotipos de baja calidad son:")
       message(paste(names(attr(df, "bad_samples")), collapse = ", "))
+
+      shiny::updateActionButton(session, "runScoresBtn", label ="Exito", icon = shiny::icon("check"))
 
     }
     )

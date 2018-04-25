@@ -32,7 +32,8 @@ ui_abi <- function() {
                                     shiny::actionButton(
                                       "runScoresBtn",
                                       "Procesar archivos",
-                                      class = "btn-primary"
+                                      class = "btn-primary",
+                                      icon = shiny::icon("hourglass-start")
                                     )
                                   #)
                                   )
