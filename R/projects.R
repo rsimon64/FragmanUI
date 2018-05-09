@@ -29,8 +29,8 @@ add_project <- function(project_ID = "demo") {
   return(FALSE)
 }
 
-get_assay_dir <- function(project_ID, assay_src_dir) {
-  fp <- file.path(get_project_dir(project_ID), paste0(prefix_ass, basename(assay_src_dir)))
+get_assay_dir <- function(project_ID, assay_dir) {
+  fp <- file.path(get_project_dir(project_ID), paste0(prefix_ass, basename(assay_dir)))
   if(!dir.exists(fp)) dir.create(fp, recursive = TRUE)
   fp
 }
@@ -46,6 +46,11 @@ list_assays <- function(project_ID) {
   project_path <- get_project_dir(project_ID)
   assays <- basename(list.files(project_path, recursive = FALSE, pattern = "a_", include.dirs = TRUE))
   return(assays)
+}
+
+list_assay_files <- function(project_ID, assay_ID) {
+  assay_data <- file.path(get_assay_dir(project_ID, assay_ID), "data")
+  list.files(assay_data)
 }
 
 

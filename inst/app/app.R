@@ -8,20 +8,28 @@ data("liz600")
 # src <- system.file("apps/sample-01/www/inia.png", package = "shinyware")
 # file.copy(src, "www/inia.jpg")
 
-header1 <- sw_dashboardHeader("Analizar Fragmentos ADN", logo = "inia.jpg",
-                             shinydashboard::dropdownMenu(
-                               type = "notifications",
-                               icon = shiny::icon("question-circle"),
-                               badgeStatus = NULL,
-                               headerText = "See also:",
-
-                               shinydashboard::notificationItem("Tutorial", icon = shiny::icon("file"),
-                                                                href = "tutorial_english.html")
-                             )
+header1 <- sw_dashboardHeader("Analizar Fragmentos ADN", logo = "inia.jpg"#,
+#
+#
+#                              shinydashboard::dropdownMenu(
+#                                type = "notifications",
+#                                icon = shiny::icon("question-circle"),
+#                                badgeStatus = NULL,
+#                                headerText = "See also:",
+#
+#                                shinydashboard::notificationItem("Tutorial", icon = shiny::icon("file"),
+#                                                                 href = "tutorial_english.html")
+#                              )
 )
 
 
 sm <- sidebarMenu(
+  # menuItem(
+  #   text="Acerca de",
+  #   tabName="tabAbout",
+  #   icon=icon("info")
+  # )
+  #,
   menuItem(
     text="Manejar proyectos",
     tabName="tabProjects",
@@ -40,31 +48,32 @@ sm <- sidebarMenu(
     icon=icon("align-justify")
   )
   ,
+  # menuItem(
+  #   text="Evaluar archivos ABI",
+  #   tabName="tabABIexplore",
+  #   icon=icon("eye")
+  # ),
   menuItem(
-    text="Evaluar archivos ABI",
-    tabName="tabABIexplore",
-    icon=icon("eye")
-  ),
-  menuItem(
-    text="Convertir archivos ABI",
+    text="Analizar archivos ABI",
     tabName="tabABIanalyze",
     icon=icon("table")
-  ),
-  menuItem(
-    text="Revisar archivos ABI",
-    tabName="tabABIreview",
-    icon=icon("download")
-  ),
-  menuItem(
-    text="Documentar experimento",
-    tabName="tabABImeta",
-    icon=icon("edit")
-  ),
-  menuItem(
-    text="Preparar reporte ABI",
-    tabName="tabABIreport",
-    icon=icon("file")
   )
+  #,
+  # menuItem(
+  #   text="Revisar tabla resultados",
+  #   tabName="tabABIreview",
+  #   icon=icon("check")
+  # ),
+  # menuItem(
+  #   text="Documentar experimento",
+  #   tabName="tabABImeta",
+  #   icon=icon("edit")
+  # ),
+  # menuItem(
+  #   text="Preparar reporte ABI",
+  #   tabName="tabABIreport",
+  #   icon=icon("file")
+  # )
 )
 
 
@@ -78,6 +87,16 @@ sidebar <- shinydashboard::dashboardSidebar(
 
 body <- shinydashboard::dashboardBody(
   tabItems(
+    tabItem(
+      tabName = "tabAbout",
+      shiny::fluidRow(
+        shinycards::card(width = 6,
+          shiny::HTML(
+            readLines(system.file("doc/tutorial_castellano2.html", package="FragmanUI"))
+          )
+        )
+      )
+    ),
     tabItem(
       tabName = "tabProjects",
       shiny::fluidRow(
@@ -106,6 +125,12 @@ body <- shinydashboard::dashboardBody(
 
                       shiny::h4("Archivos en el directorio seleccionado")
 
+        ),
+        shinycards::card(width = 6, title = "Archivos importados", icon = NULL,
+                      shiny::p("Solo mostrando hasta los primeros 20 archivos")   ,
+                      shiny::htmlOutput("abiImported")
+
+
         )
       )
     )
@@ -121,6 +146,16 @@ ui_app <- shinydashboard::dashboardPage(
 
 sv_app <- function(input, output, session) {
   #FragmanUI:::sv_abi(input, output, session)
+  output$notificationMenu <- shinydashboard::renderMenu({
+
+    shinydashboard::dropdownMenu(type = "notifications",
+                                 #icon = shiny::icon("question-circle"),
+                                 badgeStatus = NULL#,
+                                # headerText = "See also:",
+                                 # shinydashboard::notificationItem("about", icon = shiny::icon("file"),
+                                 #                                  href = "#shiny-tab-tabAbout")
+    )
+  })
 
   volumes <- c( "Base" = Sys.getenv("Home"))
   shinyFiles::shinyDirChoose(input, 'btnAbiSrcDir', roots = volumes, session=session)
@@ -153,6 +188,14 @@ sv_app <- function(input, output, session) {
     }
     )
     showNotification("Archivos importados!.", type = "message", duration = NULL)
+    output$abiImported <- renderText({
+      # message(tgt)
+      # message(basename(abiSrcPath()))
+      fls <- basename(FragmanUI:::list_assay_files(tgt, basename(abiSrcPath())))
+      #message(fls)
+
+      paste0("Total archivos importados: ", length(fls), "<br/>", paste(fls, collapse = "</br>"))
+    })
   })
 
 
