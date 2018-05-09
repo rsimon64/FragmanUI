@@ -1,6 +1,6 @@
 
 get_resource_base_dir <- function() {
-  file.path(rappdirs::user_data_dir(appname = department, appauthor = institute), "resources")
+  file.path(rappdirs::user_data_dir(appname = department(), appauthor = institute()), "resources")
 }
 
 get_resource_abi_dir <- function() {

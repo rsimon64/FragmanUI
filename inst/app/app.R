@@ -74,6 +74,12 @@ sm <- sidebarMenu(
   #   tabName="tabABIreport",
   #   icon=icon("file")
   # )
+  #,
+  # menuItem(
+  #   text="Bajar resultados ",
+  #   tabName="tabABIexport",
+  #   icon=icon("download")
+  # )
 )
 
 
@@ -106,6 +112,16 @@ body <- shinydashboard::dashboardBody(
                          shiny::textOutput("projectList"),
                          shiny::textInput("projectID", "Nuevo proyecto:", placeholder = "nombre del proyecto"),
                          shiny::actionButton("btnAddProjectID", "Crear nuevo")
+        )
+      )
+    ),
+    tabItem(
+      tabName = "tabLadders",
+      shiny::fluidRow(
+        shinycards::card(width = 6, title = "Manejar escaleras moleculares", icon = NULL,
+                         shiny::p("Listado actual:"),
+                         shiny::textOutput("ladderList")
+
         )
       )
     ),
@@ -201,6 +217,10 @@ sv_app <- function(input, output, session) {
 
   output$projectList <- renderText({
     paste(basename(FragmanUI:::list_projects()), collapse = ", ")
+  })
+
+  output$ladderList <- renderText({
+    paste(FragmanUI:::list_ladders(), collapse = ", ")
   })
 
   session$onSessionEnded(function() {
