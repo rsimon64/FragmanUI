@@ -31,9 +31,27 @@ sm <- sidebarMenu(
   # )
   #,
   menuItem(
-    text="Manejar proyectos",
+    text="Añadir proyecto",
     tabName="tabProjects",
     icon=icon("folder")
+  )
+  ,
+  menuItem(
+    text="Añadir escalera molecular",
+    tabName="tabLadders",
+    icon=icon("align-justify")
+  )
+  ,
+  menuItem(
+    text="Añadir marcador molecular",
+    tabName="tabMarkers",
+    icon=icon("align-center")
+  )
+  ,
+  menuItem(
+    text="Añadir conjunto genotipos",
+    tabName="tabGenotypes",
+    icon=icon("align-center")
   )
   ,
   menuItem(
@@ -42,17 +60,13 @@ sm <- sidebarMenu(
     icon=icon("upload")
     )
   ,
-  menuItem(
-    text="Manejar escaleras moleculares",
-    tabName="tabLadders",
-    icon=icon("align-justify")
-  )
-  ,
+
   # menuItem(
   #   text="Evaluar archivos ABI",
   #   tabName="tabABIexplore",
   #   icon=icon("eye")
   # ),
+
   menuItem(
     text="Analizar archivos ABI",
     tabName="tabABIanalyze",
@@ -106,7 +120,7 @@ body <- shinydashboard::dashboardBody(
     tabItem(
       tabName = "tabProjects",
       shiny::fluidRow(
-        shinycards::card(width = 6, title = "Nuevo proyecto", icon = NULL,
+        shinycards::card(width = 6, title = "Añadir proyecto", icon = NULL,
                          shiny::p(paste("Todos los proyectos tendran un prefijo interno de forma 'i_[año]'")),
                          shiny::p("Listado actual:"),
                          shiny::textOutput("projectList"),
@@ -118,9 +132,40 @@ body <- shinydashboard::dashboardBody(
     tabItem(
       tabName = "tabLadders",
       shiny::fluidRow(
-        shinycards::card(width = 6, title = "Manejar escaleras moleculares", icon = NULL,
+        shinycards::card(width = 6, title = "Añadir escalera molecular", icon = NULL,
                          shiny::p("Listado actual:"),
-                         shiny::textOutput("ladderList")
+                         shiny::textOutput("ladderList"),
+                         shiny::br(),
+                         shiny::textInput("ladderID", "Nombre nueva escalera molecular:", placeholder = "nombre900"),
+                         shiny::textAreaInput("ladderBp", "Listado de pesos moleculares separados por comma",
+                                              placeholder = "30, 60, 90, ..."),
+                         shiny::actionButton("btnAddLadderID", "Crear nueva")
+
+        )
+      )
+    ),
+    tabItem(
+      tabName = "tabMarkers",
+      shiny::fluidRow(
+        shinycards::card(width = 6, title = "Añadir marcador molecular", icon = NULL,
+                         shiny::p("Listado actual:"),
+                         shiny::textOutput("markerList"),
+                         shiny::br(),
+                         shiny::textInput("markerID", "Nombre nuevo marcador molecular:", placeholder = "m123"),
+                         shiny::textAreaInput("markerNotes", "Referencia y notas",
+                                              placeholder = "Referencia y notas"),
+                         #shiny::p("ladder"),
+                         shiny::selectInput("markerLadder", "Asociar escalera molecular", choices = FragmanUI:::list_ladders()),
+                         #shiny::p("bp range"),
+                         shiny::sliderInput("markerRange", "Rango bp", 0, 1000, c(200, 340) ),
+                         #shiny::p("channels"),
+                         shiny::checkboxGroupInput("channels", "Canales preferidos",  1:5,
+                                                   selected = 1:5, inline = TRUE),
+                         #shiny::p("lumbral"),
+                         shiny::sliderInput("markerThreshold", "Umbral mínimo", 0, 10000, 3000, step = 100),
+                         shiny::br(),
+
+                         shiny::actionButton("btnAddMarker", "Crear nuevo marcador")
 
         )
       )
@@ -134,12 +179,15 @@ body <- shinydashboard::dashboardBody(
       shiny::fluidRow(
 
         shinycards::card(width = 6, title = "Importar archivos ABI", icon = NULL,
+                      shinyFiles::shinyDirButton('btnAbiSrcDir', 'Directorio con archivos', 'Seleccione un folder')
+                      # ,
+                      # shiny::h4("Archivos en el directorio seleccionado")
+                      ,
+                      shiny::p("Asociar marcador"),
+                      shiny::p("Asociar populación"),
+                      shiny::radioButtons("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects()))
 
-                      shiny::radioButtons("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects())),
 
-                      shinyFiles::shinyDirButton('btnAbiSrcDir', 'Directorio con archivos', 'Seleccione un folder'),
-
-                      shiny::h4("Archivos en el directorio seleccionado")
 
         ),
         shinycards::card(width = 6, title = "Archivos importados", icon = NULL,
