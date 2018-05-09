@@ -6,7 +6,7 @@ ui_abi <- function() {
   ui <- shiny::fluidRow(
 
     shiny::column(6,
-                  shinyFiles::shinyDirButton('btnAbiDir', 'Folder select', 'Please select a folder',
+                  shinyFiles::shinyDirButton('btnAbiDir', 'Buscar folder', 'Seleccione un folder',
                                              class = "btn-primary"),
 
                   shiny::h4("Archivos en el directorio seleccionado"),
