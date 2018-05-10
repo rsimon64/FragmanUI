@@ -15,8 +15,6 @@ shiny::shinyApp(
         ui_import,
         ui_review,
         ui_abi # this will be removed
-
-
       )
     )
   ),

@@ -84,12 +84,35 @@ sv_review <- function(input, output, session) {
   observeEvent(input$btnReview, {
 
     v$doPlot <- input$btnReview
+
+    v$prj <- input$reviewProject
+    v$mrk <- input$reviewMarker
+    v$ldr <- input$reviewLadder
+    v$chn <- input$reviewChannels  %>% as.integer
+    v$thr <- input$reviewThreshold  %>% as.integer
+    v$rng <- input$reviewRange  %>% as.integer
+    v$gtt <- input$reviewQuality  %>% as.numeric
+
     # save selected parameter values to corresponding assay!
     # will be read for extracting scores from all archives
+    prms <- list(
+      project_ID = v$prj,
+      marker_ID = v$mrk,
+      ladder_ID = v$ldr,
+      channels = v$chn,
+      threshold = v$thr,
+      range_bp = v$rng,
+      genotype_Q = v$gtt
+    )
+
+    FragmanUI:::save_scan_params(prms, v$prj, v$mrk)
 
   })
 
   v <- reactiveValues(doPlot = FALSE)
+
+
+
 
   observeEvent(input$reviewProject, {
     v$doPlot <- FALSE
@@ -115,90 +138,48 @@ sv_review <- function(input, output, session) {
     v$doPlot <- FALSE
   })
 
+  observeEvent(input$reviewQuality, {
+    v$doPlot <- FALSE
+  })
+
 
 
   output$overview2 <- renderPlot({
-    # A temp file to save the output. It will be deleted after renderImage
-    # sends it, because deleteFile=TRUE.
     if (v$doPlot == FALSE) return()
 
     isolate({
     withProgress(message = "Actualizando gr\u00E1fico overview", style = "notification", value = 1, {
-
-      # outfile <- tempfile(fileext='.png')
-      # png(outfile, width = 1000, height = 400, units = "px" )
-      prj <- input$reviewProject
-      mrk <- input$reviewMarker
-      ldr <- input$reviewLadder
-      chn <- input$reviewChannels  %>% as.integer
-      thr <- input$reviewThreshold  %>% as.integer
-      rng <- input$reviewRange  %>% as.integer
-
       score_env <- globalenv()
-
-      folder <- file.path(get_assay_dir(prj, mrk), "data")
-
-
+      folder <- file.path(get_assay_dir(v$prj, v$mrk), "data")
       my_plants <- storing.inds(folder)
-      my_ladder <- FragmanUI:::read_ladder(ldr)[[1]] %>% as.integer
+      my_ladder <- FragmanUI:::read_ladder(v$ldr)[[1]] %>% as.integer
       ladder.info.attach(stored=my_plants, ladder = my_ladder, env = score_env,  draw = FALSE)
-      overview2(my.inds = my_plants, ladder = my_ladder, channel = chn, env = score_env)
-      abline(h = as.integer(thr), col = "red")
-      abline(v = as.integer(rng), col = "blue")
-
-      #dev.off()
+      overview2(my.inds = my_plants, ladder = my_ladder, channel = v$chn, env = score_env)
+      abline(h = as.integer(v$thr), col = "red")
+      abline(v = as.integer(v$rng), col = "blue")
     })
     })
-    # Return a list
-    # list(src = outfile,
-    #      alt = "This is alternate text")
-  }#, deleteFile = TRUE
+  }
   )
 
 
-
-
-
   output$overview2Zoom <- renderPlot({
-    # A temp file to save the output. It will be deleted after renderImage
-    # sends it, because deleteFile=TRUE.
     if (v$doPlot == FALSE) return()
 
     isolate({
     withProgress(message = "Actualizando gr\u00E1fico zoom", style = "notification", value = 1, {
-
-      # outfile <- tempfile(fileext='.png')
-      # png(outfile, width = 1000, height = 400, units = "px" )
-      prj <- input$reviewProject
-      mrk <- input$reviewMarker
-      ldr <- input$reviewLadder
-      chn <- input$reviewChannels  %>% as.integer
-      thr <- input$reviewThreshold  %>% as.integer
-      rng <- input$reviewRange  %>% as.integer
-
       score_env <- globalenv()
-
-
-      folder <- file.path(get_assay_dir(prj, mrk), "data")
+      folder <- file.path(get_assay_dir(v$prj, v$mrk), "data")
       my_plants <- storing.inds(folder)
-      my_ladder <- FragmanUI:::read_ladder(ldr)[[1]] %>% as.integer
+      my_ladder <- FragmanUI:::read_ladder(v$ldr)[[1]] %>% as.integer
       ladder.info.attach(stored=my_plants, ladder = my_ladder, env = score_env,  draw = FALSE)
-      overview2(my.inds = my_plants, ladder = my_ladder, channel = chn, env = score_env,
-                xlim = rng)
-      abline(h = as.integer(thr), col = "red")
-      abline(v = as.integer(rng), col = "blue")
-
-      #dev.off()
+      overview2(my.inds = my_plants, ladder = my_ladder, channel = v$chn, env = score_env,
+                xlim = v$rng)
+      abline(h = as.integer(v$thr), col = "red")
+      abline(v = as.integer(v$rng), col = "blue")
     })
     })
-    # Return a list
-    # list(src = outfile,
-    #      alt = "This is alternate text")
-  }#, deleteFile = TRUE
+  }
   )
-
-
-
-
 
 }
