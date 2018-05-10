@@ -2,7 +2,7 @@
 ui_projects <- tabItem(
   tabName = "tabProjects",
   shiny::fluidRow(
-    shinycards::card(width = 6, title = "Aadir proyecto", icon = NULL,
+    shinycards::card(width = 6, title = "A\u00F1adir proyecto", icon = NULL,
                      shiny::p(paste("Todos los proyectos tendran un prefijo interno de forma 'i_[a\u00F1o]'")),
                      shiny::p("Listado actual:"),
                      shiny::textOutput("projectList"),
