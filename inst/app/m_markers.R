@@ -23,7 +23,7 @@ ui_markers <- tabItem(
     shinycards::card(width = 6, title = "", icon = NULL,
                      shiny::selectInput("markerLadder", "Asociar escalera molecular", choices = FragmanUI:::list_ladders()),
                      shiny::sliderInput("markerRange", "Rango bp", 0, 1000, c(200, 340) ),
-                     shiny::checkboxGroupInput("channels", "Canales preferidos",  1:5,
+                     shiny::checkboxGroupInput("markerChannels", "Canales preferidos",  1:5,
                                                selected = 1:5, inline = TRUE),
                      shiny::sliderInput("markerThreshold", "Umbral mínimo", 0, 10000, 3000, step = 100),
                      shiny::br(),
@@ -33,3 +33,40 @@ ui_markers <- tabItem(
     )
   )
 )
+
+
+sv_markers <- function(input, output, session) {
+  output$markerList <- renderText({
+    paste(FragmanUI:::list_markers(), collapse = ", ")
+  })
+
+  observeEvent(input$btnAddMarker, {
+    marker <- list(x = list(
+      markerName = input$markerName,
+      markerDbRef = input$markerDbRef,
+      markerVariant = input$markerVariant,
+      markerPriFwd = input$markerPriFwd,
+      markerPriRev = input$markerPriRev,
+      markerEnzRes = input$markerEnzRes,
+      markerRef = input$markerRef,
+      markerNotes = input$markerNotes,
+      markerLadder = input$markerLadder,
+      markerRange = input$markerRange,
+      markerChannels = input$markerChannels,
+      markerThreshold = input$markerThreshold
+      )
+    )
+    names(marker)[1] <- input$markerID
+    FragmanUI:::add_marker(marker)
+
+    listM <- FragmanUI:::list_markers()
+
+    output$markerList <- renderText({
+      paste(listM, collapse = ", ")
+    })
+
+    updateSelectInput(session, "importAbiMarker", choices = listM)
+    showNotification("Marcador molecular nueva creado!.", type = "message", duration = NULL)
+  })
+
+}

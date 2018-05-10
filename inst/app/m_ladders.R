@@ -33,6 +33,7 @@ sv_ladders <- function(input, output, session) {
     })
 
     updateSelectInput(session, "markerLadder", choices = listL)
+    updateSelectInput(session, "importAbiLadder", choices = listL)
     showNotification("Escalera mmolecular nueva creado!.", type = "message", duration = NULL)
   })
 

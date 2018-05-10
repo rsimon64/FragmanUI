@@ -4,11 +4,12 @@ ui_import <- tabItem(
   shiny::fluidRow(
 
     shinycards::card(width = 6, title = "Importar archivos ABI", icon = NULL,
-                     shinyFiles::shinyDirButton('btnAbiSrcDir', 'Directorio con archivos', 'Seleccione un folder'),
+
                      shiny::selectInput("importAbiMarker", "Asociar marcador", FragmanUI:::list_markers()  ),
                      shiny::selectInput("importAbiLadder", "Asociar escalera", FragmanUI:::list_ladders()  ),
                      shiny::selectInput("importAbiGenotypes", "Asociar grupo genotipos", FragmanUI:::list_genotypes()  ),
-                     shiny::selectInput("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects()))
+                     shiny::selectInput("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects())),
+                     shinyFiles::shinyDirButton('btnAbiSrcDir', 'Importar de', 'Seleccione un folder')
     ),
     shinycards::card(width = 6, title = "Archivos importados", icon = NULL,
                      shiny::p("Solo mostrando hasta los primeros 20 archivos")   ,
@@ -30,7 +31,6 @@ sv_import <- function(input, output, session) {
   })
 
   observeEvent(input$btnAbiSrcDir, {
-
     prefix <- paste0("i_", FragmanUI:::act_year(), "_")
     tgt <- stringr::str_replace(input$projectTgt, prefix, "")
     shiny::withProgress(message = 'Procesando ...', style = "notification", value = 1,{

@@ -13,10 +13,8 @@ get_resource_abi_dir <- function() {
 }
 
 add_ladder <- function(ladder) {
-
   tgt_name <- file.path(get_resource_abi_dir(),"ladders", names(ladder))
   saveRDS(ladder[[1]], file = tgt_name)
-
 }
 
 get_abi_ladders <- function() {
