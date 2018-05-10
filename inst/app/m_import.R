@@ -9,6 +9,8 @@ ui_import <- tabItem(
                      shiny::selectInput("importAbiLadder", "Asociar escalera", FragmanUI:::list_ladders()  ),
                      shiny::selectInput("importAbiGenotypes", "Asociar grupo genotipos", FragmanUI:::list_genotypes()  ),
                      shiny::selectInput("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects())),
+                     shiny::htmlOutput("importedMarker"),
+                     shiny::br(),
                      shinyFiles::shinyDirButton('btnAbiSrcDir', 'Importar de', 'Seleccione un folder')
     ),
     shinycards::card(width = 6, title = "Archivos importados", icon = NULL,
@@ -45,6 +47,17 @@ sv_import <- function(input, output, session) {
       #message(fls)
 
       paste0("Total archivos importados: ", length(fls), "<br/>", paste(fls, collapse = "</br>"))
+    })
+  })
+
+  observeEvent(input$projectTgt, {
+    output$importedMarker <- renderText({
+      prefix <- paste0("i_", FragmanUI:::act_year(), "_")
+      tgt <- stringr::str_replace(input$projectTgt, prefix, "")
+      fls <- basename(FragmanUI:::list_assays(tgt))
+      #message(fls)
+
+      paste0("<b>Marcadores ya importados en este proyecto:</b>&nbsp;", paste(fls, collapse = "</br>"))
     })
   })
 }

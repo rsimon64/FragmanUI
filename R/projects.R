@@ -31,15 +31,19 @@ add_project <- function(project_ID = "demo") {
 
 get_assay_dir <- function(project_ID, assay_dir) {
   fp <- file.path(get_project_dir(project_ID), paste0(prefix_ass, basename(assay_dir)))
-  if(!dir.exists(fp)) dir.create(fp, recursive = TRUE)
+  fpd<- file.path(fp, "data")
+  fpr<- file.path(fp, "data")
+  if(!dir.exists(fpd)) dir.create(fpd, recursive = TRUE)
+  if(!dir.exists(fpr)) dir.create(fpr, recursive = TRUE)
   fp
 }
 
 add_assay <- function(assay_src_dir, project_ID) {
   #if (!dir.exists(assay_src_dir)) return(FALSE)
-  assay_path <- get_assay_dir(project_ID, assay_src_dir)
-  if (!dir.exists(assay_path)) dir.create(assay_path)
-  file.copy(assay_src_dir, assay_path, overwrite = TRUE, recursive = TRUE)
+  assay_path <- file.path(get_assay_dir(project_ID, assay_src_dir), "data")
+  #if (!dir.exists(assay_path)) dir.create(assay_path)
+  src_files <- list.files(assay_src_dir, full.names = TRUE)
+  file.copy(src_files, assay_path, overwrite = TRUE)
 }
 
 list_assays <- function(project_ID) {

@@ -11,9 +11,12 @@ shiny::shinyApp(
         ui_projects,
         ui_ladders,
         ui_markers,
-        ui_abi, # this will be removed
+        ui_genotypes,
         ui_import,
-        ui_genotypes
+        ui_review,
+        ui_abi # this will be removed
+
+
       )
     )
   ),
@@ -24,6 +27,7 @@ shiny::shinyApp(
     sv_ladders(input, output, session)
     sv_markers(input, output, session)
     sv_genotypes(input, output, session)
+    sv_review(input, output, session)
     sv_import(input, output, session) # need to revise this
   },
 

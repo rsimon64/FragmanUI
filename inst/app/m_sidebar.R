@@ -45,8 +45,9 @@ sm <- sidebarMenu(
     ,
 
     menuSubItem(
+      selected = TRUE,
       text="Evaluar",
-      tabName="tabABIexplore",
+      tabName="tabReview",
       icon=icon("eye")
     ),
 
