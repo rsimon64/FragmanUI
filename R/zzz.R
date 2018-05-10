@@ -9,7 +9,7 @@
                https://github.com/rsimon64/FragmanUI/issues\n")
   packageStartupMessage(txt)
 
-  data(liz600)
+  utils::data(liz600)
 }
 
 .onLoad <- function(libname, pkgname) {

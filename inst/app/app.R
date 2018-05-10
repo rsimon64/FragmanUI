@@ -4,9 +4,9 @@ library(shiny)
 library(shinydashboard)
 library(shinyFiles)
 
-data("liz600")
-# src <- system.file("apps/sample-01/www/inia.png", package = "shinyware")
-# file.copy(src, "www/inia.jpg")
+#utils::data("liz600")
+ # src <- system.file("apps/sample-01/www/inia.png", package = "shinyware")
+ # file.copy(src, "inst/www/inia.jpg")
 
 header1 <- sw_dashboardHeader("Analizar Fragmentos ADN", logo = "inia.jpg"#,
 #
@@ -24,82 +24,92 @@ header1 <- sw_dashboardHeader("Analizar Fragmentos ADN", logo = "inia.jpg"#,
 
 
 sm <- sidebarMenu(
-  # menuItem(
-  #   text="Acerca de",
-  #   tabName="tabAbout",
-  #   icon=icon("info")
-  # )
-  #,
   menuItem(
-    text="Añadir proyecto",
-    tabName="tabProjects",
-    icon=icon("folder")
+    text="Acerca de",
+    tabName="tabAbout",
+    icon=icon("info")
   )
   ,
   menuItem(
-    text="Añadir escalera molecular",
-    tabName="tabLadders",
-    icon=icon("align-justify")
-  )
-  ,
-  menuItem(
-    text="Añadir marcador molecular",
-    tabName="tabMarkers",
-    icon=icon("align-center")
-  )
-  ,
-  menuItem(
-    text="Añadir conjunto genotipos",
-    tabName="tabGenotypes",
-    icon=icon("align-center")
-  )
-  ,
-  menuItem(
-    text="Importar archivos ABI",
-    tabName="tabImport",
-    icon=icon("upload")
+    text="Añadir recursos",
+    icon=icon("plus"),
+    menuSubItem(
+      text="Añadir proyecto",
+      tabName="tabProjects",
+      icon=icon("folder")
     )
+    ,
+    menuSubItem(
+      text="Añadir escalera molecular",
+      tabName="tabLadders",
+      icon=icon("align-justify")
+    )
+    ,
+    menuSubItem(
+      text="Añadir marcador molecular",
+      tabName="tabMarkers",
+      icon=icon("align-center")
+    )
+    ,
+    menuSubItem(
+      text="Añadir conjunto genotipos",
+      tabName="tabGenotypes",
+      icon=icon("align-center")
+    )
+  )
+  ,
+  menuItem(
+    text="Collectar datos",
+    icon=icon("wrench"),
+    menuSubItem(
+      text="Importar archivos ABI",
+      tabName="tabImport",
+      icon=icon("upload")
+    )
+    ,
+
+    menuSubItem(
+      text="Evaluar",
+      tabName="tabABIexplore",
+      icon=icon("eye")
+    ),
+
+    menuSubItem(
+      text="Analizar",
+      tabName="tabABIanalyze",
+      icon=icon("table")
+    )
+    ,
+    menuSubItem(
+      text="Revisar resultados",
+      tabName="tabABIreview",
+      icon=icon("check")
+    ),
+    menuSubItem(
+      text="Documentar",
+      tabName="tabABImeta",
+      icon=icon("edit")
+    )
+  )
   ,
 
-  # menuItem(
-  #   text="Evaluar archivos ABI",
-  #   tabName="tabABIexplore",
-  #   icon=icon("eye")
-  # ),
-
   menuItem(
-    text="Analizar archivos ABI",
-    tabName="tabABIanalyze",
-    icon=icon("table")
+    text="Preparar reporte",
+    tabName="tabABIreport",
+    icon=icon("file")
   )
-  #,
-  # menuItem(
-  #   text="Revisar tabla resultados",
-  #   tabName="tabABIreview",
-  #   icon=icon("check")
-  # ),
-  # menuItem(
-  #   text="Documentar experimento",
-  #   tabName="tabABImeta",
-  #   icon=icon("edit")
-  # ),
-  # menuItem(
-  #   text="Preparar reporte ABI",
-  #   tabName="tabABIreport",
-  #   icon=icon("file")
-  # )
-  #,
-  # menuItem(
-  #   text="Bajar resultados ",
-  #   tabName="tabABIexport",
-  #   icon=icon("download")
-  # )
+  ,
+  menuItem(
+    text="Bajar resultados ",
+    tabName="tabABIexport",
+    icon=icon("download")
+  )
 )
 
 
 sidebar <- shinydashboard::dashboardSidebar(
   br(),
-  div(img(src="logo_app.png", width = "150px"), style="text-align: center;"),
+  div(img(src="inia.jpg", width = "150px"), style="text-align: center;"),
   sm
 )
 
@@ -111,8 +121,8 @@ body <- shinydashboard::dashboardBody(
       tabName = "tabAbout",
       shiny::fluidRow(
         shinycards::card(width = 6,
-          shiny::HTML(
-            readLines(system.file("doc/tutorial_castellano2.html", package="FragmanUI"))
+          shiny::HTML(""
+            #readLines(system.file("doc/tutorial_castellano2.html", package="FragmanUI"))
           )
         )
       )
@@ -221,7 +231,7 @@ sv_app <- function(input, output, session) {
     )
   })
 
-  volumes <- c( "Base" = Sys.getenv("Home"))
+  volumes <- c( "Base" = Sys.getenv("Home"), "Data" = file.path("D:"))
   shinyFiles::shinyDirChoose(input, 'btnAbiSrcDir', roots = volumes, session=session)
 
 

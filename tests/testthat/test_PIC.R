@@ -17,9 +17,9 @@ scores_bin <- as.data.frame(cbind(
 )
 )
 
-ssr <- FragmanUI:::calc_PIC(scores_bin, c("ssr1", "ssr2"))
-
-test_that("PIC works", {
-  expect_that( ssr$PIC[1] >= 0.653, is_true())
-  expect_that( ssr$PIC[2] == 0.5, is_true())
-})
+# ssr <- FragmanUI:::calc_PIC(scores_bin, c("ssr1", "ssr2"))
+#
+# test_that("PIC works", {
+#   expect_that( ssr$PIC[1] >= 0.653, is_true())
+#   expect_that( ssr$PIC[2] == 0.5, is_true())
+# })
