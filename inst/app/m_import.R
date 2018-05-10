@@ -4,18 +4,11 @@ ui_import <- tabItem(
   shiny::fluidRow(
 
     shinycards::card(width = 6, title = "Importar archivos ABI", icon = NULL,
-                     shinyFiles::shinyDirButton('btnAbiSrcDir', 'Directorio con archivos', 'Seleccione un folder')
-                     # ,
-                     # shiny::h4("Archivos en el directorio seleccionado")
-                     ,
-                     shiny::p("Asociar marcador"),
-                     shiny::p("Asociar escalera"),
-                     shiny::p("Asociar grupo genético")
-                     ,
-                     shiny::radioButtons("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects()))
-
-
-
+                     shinyFiles::shinyDirButton('btnAbiSrcDir', 'Directorio con archivos', 'Seleccione un folder'),
+                     shiny::selectInput("importAbiMarker", "Asociar marcador", FragmanUI:::list_markers()  ),
+                     shiny::selectInput("importAbiLadder", "Asociar escalera", FragmanUI:::list_ladders()  ),
+                     shiny::selectInput("importAbiGenotypes", "Asociar grupo genotipos", FragmanUI:::list_genotypes()  ),
+                     shiny::selectInput("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects()))
     ),
     shinycards::card(width = 6, title = "Archivos importados", icon = NULL,
                      shiny::p("Solo mostrando hasta los primeros 20 archivos")   ,

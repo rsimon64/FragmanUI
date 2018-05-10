@@ -4,10 +4,16 @@ ui_projects <- tabItem(
   shiny::fluidRow(
     shinycards::card(width = 6, title = "A\u00F1adir proyecto", icon = NULL,
                      shiny::p(paste("Todos los proyectos tendran un prefijo interno de forma 'i_[a\u00F1o]'")),
-                     shiny::p("Listado actual:"),
-                     shiny::textOutput("projectList"),
-                     shiny::textInput("projectID", "Nuevo proyecto:", placeholder = "nombre del proyecto"),
+                     shiny::textInput("projectID", "ID nuevo proyecto:", placeholder = "ID del proyecto"),
+                     shiny::p("Nombre"),
+                     shiny::p("Descripcion"),
+                     shiny::p("Fecha inicio y final"),
+                     shiny::p("otros see MiGen"),
                      shiny::actionButton("btnAddProjectID", "Crear nuevo")
+    ),
+    shinycards::card(width = 6, title = "", icon = NULL,
+                     shiny::p("Listado actual:"),
+                     shiny::textOutput("projectList")
     )
   )
 )

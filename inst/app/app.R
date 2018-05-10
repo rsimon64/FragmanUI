@@ -12,7 +12,8 @@ shiny::shinyApp(
         ui_ladders,
         ui_markers,
         ui_abi2,
-        ui_import
+        ui_import,
+        ui_genotypes
       )
     )
   ),
