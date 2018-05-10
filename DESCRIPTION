@@ -9,7 +9,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: Fragman, miniUI, shiny, DT, shinyFiles, shinyjs, stringr, yaml, utils, magrittr, rstudioapi, d3heatmap,
-  DT, agricolae, bookdown, tcltk
+  DT, agricolae, bookdown, dplyr, withr, rappdirs, whisker
 Suggests: testthat,
     knitr,
     rmarkdown,
