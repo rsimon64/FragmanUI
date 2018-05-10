@@ -1,12 +1,3 @@
-res_name <- function(x) {
-  res_name <- function(x) {
-    x <- basename(x)
-    stringr::str_split(x, "_")[[1]][3]
-  }
-
-  unlist(lapply(x, res_name))
-}
-
 
 ui_review <- tabItem(
   tabName = "tabReview",
@@ -15,7 +6,8 @@ ui_review <- tabItem(
     shinycards::card(width = 4, title = "Revisar marcador ABI", icon = NULL,
                      fluidRow(
                        column(6,
-                              shiny::selectInput("reviewProject", "Proyecto", res_name(FragmanUI:::list_projects())  )
+                              shiny::selectInput("reviewProject", "Proyecto",
+                                                 FragmanUI:::res_name(FragmanUI:::list_projects())  )
                        ),
                        column(6,
                               shiny::uiOutput("reviewMarkerO")
@@ -77,7 +69,8 @@ sv_review <- function(input, output, session) {
   output$reviewMarkerO <- renderUI({
     if(is.null(input$reviewProject)) return()
 
-    selectInput("reviewMarker", "Seleccionar marcador", res_name(FragmanUI:::list_assays(input$reviewProject)))
+    selectInput("reviewMarker", "Seleccionar marcador",
+                FragmanUI:::res_name(FragmanUI:::list_assays(input$reviewProject)))
 
   })
 

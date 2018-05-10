@@ -45,15 +45,16 @@ sm <- sidebarMenu(
     ,
 
     menuSubItem(
-      selected = TRUE,
+
       text="Evaluar",
       tabName="tabReview",
       icon=icon("eye")
     ),
 
     menuSubItem(
+      selected = TRUE,
       text="Analizar",
-      tabName="tabABIanalyze",
+      tabName="tabAnalyze",
       icon=icon("table")
     )
     ,

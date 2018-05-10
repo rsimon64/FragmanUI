@@ -14,6 +14,7 @@ shiny::shinyApp(
         ui_genotypes,
         ui_import,
         ui_review,
+        ui_analyze,
         ui_abi # this will be removed
       )
     )
@@ -25,8 +26,9 @@ shiny::shinyApp(
     sv_ladders(input, output, session)
     sv_markers(input, output, session)
     sv_genotypes(input, output, session)
-    sv_review(input, output, session)
     sv_import(input, output, session) # need to revise this
+    sv_review(input, output, session)
+    sv_analyze(input, output, session)
   },
 
   options = list(
