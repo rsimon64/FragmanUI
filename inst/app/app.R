@@ -11,7 +11,7 @@ shiny::shinyApp(
         ui_projects,
         ui_ladders,
         ui_markers,
-        ui_abi2, # this will be removed
+        ui_abi, # this will be removed
         ui_import,
         ui_genotypes
       )

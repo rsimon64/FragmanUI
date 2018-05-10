@@ -1,3 +1,5 @@
+#library(magrittr)
+
 sv_abi <- function(input, output, session) {
  # vals <- reactiveValues(repo_path = NULL)
   volumes <- c('ABI folder' = get_repo(), "Base" = Sys.getenv("Home"))
@@ -26,7 +28,7 @@ sv_abi <- function(input, output, session) {
   shiny::observeEvent(input$runScoresBtn, {
     shiny::updateActionButton(session, "runScoresBtn", label ="Procesando", icon = shiny::icon("spinner"))
 
-    withProgress(message = 'Procesando ...', style = "notification", value = 1, {
+    shiny::withProgress(message = 'Procesando ...', style = "notification", value = 1, {
 
 
       ladder <- stringr::str_split(input$ladderSizes, ", ")[[1]] %>% as.integer

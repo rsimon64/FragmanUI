@@ -4,8 +4,8 @@
 \alias{auto_score}
 \title{auto_score}
 \usage{
-auto_score(folder = choose.dir(), ploidy = 2, min_threshold = 5000,
-  x_range = c(200, 350), channels = 1:5, myladder = liz600,
+auto_score(folder = utils::choose.dir(), ploidy = 2, min_threshold = 5000,
+  x_range = c(200, 350), channels = 1:5, myladder = NULL,
   marker = "mark", quality = 0.9999, plotting = TRUE)
 }
 \arguments{

@@ -21,7 +21,7 @@ Uses Fragman in the backend.
 \examples{
 
 if(interactive()) {
-   Fragman::run_fran()
+   FragmanUI::run_fran()
 }
 
 }

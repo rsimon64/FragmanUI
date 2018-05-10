@@ -1,4 +1,4 @@
-library(magrittr)
+#library(magrittr)
 
 get_repo <- function() {
   adir <- rappdirs::user_config_dir("fran", "DRGB", "1")

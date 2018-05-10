@@ -3,13 +3,14 @@ Title: User Interface for Fragman
 Version: 0.0.6
 Authors@R: person("Reinhard", "Simon", email = "rsimon64@gmail.com", role = c("aut", "cre"))
 Description: Provides graphical widgets for RStudio to score ABI files based on the functions in the 
-  fragman package plus a few convenience functions.
-Depends: R (>= 3.4.4)
+  Fragman package plus a few convenience functions.
+Depends: R (>= 3.4.4),
+  Fragman
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: Fragman, miniUI, shiny, DT, shinyFiles, shinyjs, stringr, yaml, utils, magrittr, rstudioapi, d3heatmap,
-  DT, agricolae, bookdown, dplyr, withr, rappdirs, whisker
+Imports: shiny, DT, shinyFiles, shinyjs, stringr, yaml, utils, magrittr (>= 1.5), rstudioapi, d3heatmap,
+  agricolae, bookdown, dplyr, withr, rappdirs, whisker
 Suggests: testthat,
     knitr,
     rmarkdown,

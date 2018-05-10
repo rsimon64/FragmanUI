@@ -11,14 +11,12 @@
 #' @param plotting logical; whether to create plots or not; default: FALSE
 #' @param ploidy integer; default 2; not yet implemented in Fragman
 #' @param quality numeric; default: 0.9999. 1 would be highest
-# @importFrom utils choose.dir
-#' @importFrom magrittr '%>%'
-#'
+#' @import Fragman
 #' @return data.frame of scoring results for each file or individual. Two columns for each marker (diploid).
 #' @export
-auto_score <- function(folder = choose.dir(), ploidy = 2,
+auto_score <- function(folder = utils::choose.dir(), ploidy = 2,
                        min_threshold = 5000, x_range = c(200, 350),
-                       channels = 1:5, myladder = liz600, marker = "mark", quality = .9999,
+                       channels = 1:5, myladder = NULL, marker = "mark", quality = .9999,
                        plotting = TRUE) {
 
   # message(
@@ -34,6 +32,12 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
   #     sep="\n"
   #   )
   # )
+
+
+
+  if(is.null(myladder)) {
+    myladder <- get("liz600")
+  }
 
   score_env <- globalenv()
 
@@ -66,7 +70,7 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
     for( k in seq_along(img_base)) {
       img_name <- file.path(out_dir, paste0(img_base[[k]], "_channel_", channels[i], ".png"))
       message(img_name)
-      png(img_name)
+      grDevices::png(img_name)
       x <- Fragman::score.markers(my.inds=my.plants,
                                     channel = chi,
                                     n.inds = k,
@@ -77,11 +81,11 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
                                     pref = 1,
                                     plotting = TRUE
                                   )
-      dev.off()
+      grDevices::dev.off()
     }
     # create electro gel
     img_name <- file.path(out_dir, paste0("electro_gel_channel_",channels[i],".png"))
-    png(img_name)
+    grDevices::png(img_name)
     x <- Fragman::score.markers(my.inds=my.plants,
                                 channel = channels[i],
                                 panel=my.panel[[chn]],
@@ -91,7 +95,7 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
                                 plotting = TRUE,
                                 electro = TRUE
     )
-    dev.off()
+    grDevices::dev.off()
     }
 
 
@@ -102,7 +106,7 @@ auto_score <- function(folder = choose.dir(), ploidy = 2,
   }
   names(fall)[1] <- "ids"
 
-  corro <- unlist(lapply(list.data.covarrubias, function(x){x$corr}))
+  corro <- unlist(lapply(get("list.data.covarrubias"), function(x){x$corr}))
   bad_samples <- corro[corro <= quality]
 
   attr(fall, "bad_samples" ) <- bad_samples

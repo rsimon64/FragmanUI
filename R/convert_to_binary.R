@@ -2,7 +2,7 @@
 #' Convert To Binary
 #'
 #' @param scores data.frame of score results
-#'
+# @importFrom magrittr '%>%'
 #' @return a data.frame
 #' @export
 #'

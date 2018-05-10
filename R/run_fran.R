@@ -13,18 +13,18 @@
 #' @examples
 #'
 #' if(interactive()) {
-#'    Fragman::run_fran()
+#'    FragmanUI::run_fran()
 #' }
 #'
 run_fran <- function(port = 9876) {
 
-  shiny::shinyApp(
-    ui = ui_app,
-    server = sv_app,
-    options = list(
-      port = port,
-      launch.browser = TRUE
-    )
-  )
+  # shiny::shinyApp(
+  #   ui = ui_app,
+  #   server = sv_app,
+  #   options = list(
+  #     port = port,
+  #     launch.browser = TRUE
+  #   )
+  # )
 
 }

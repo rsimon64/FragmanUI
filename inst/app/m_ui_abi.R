@@ -1,9 +1,7 @@
 
-ui_abi <- function() {
-
-  data(liz600)
-
-  ui <- shiny::fluidRow(
+ui_abi <- tabItem(
+      tabName="tabABIanalyze",
+    shiny::fluidRow(
 
     shiny::column(6,
                   shinyFiles::shinyDirButton('btnAbiDir', 'Buscar folder', 'Seleccione un folder',
@@ -14,7 +12,7 @@ ui_abi <- function() {
                   ,
                   shiny::checkboxGroupInput("channels", "Canales",  1:5,
                                             selected = 1:5, inline = TRUE),
-                  shiny::sliderInput("min_threshold", "Umbral mínimo", 0, 10000, 5000, step = 100),
+                  shiny::sliderInput("min_threshold", "Umbral m\u00EDnimo", 0, 10000, 5000, step = 100),
                   shiny::sliderInput("x_range", "Rango bp", 0, 1000, c(200, 340) )
 
     ),
@@ -45,7 +43,7 @@ ui_abi <- function() {
                                     class = "btn action-button",
                                     #class = "btn-warning",
                                     onclick = "setTimeout(function(){window.close();}, 10);",  # close browser
-                                    "Close window"
+                                    "Cerrar programa"
                                   )
                     )
                   )
@@ -55,6 +53,5 @@ ui_abi <- function() {
     )
 
   )
+)
 
-  return(ui)
-}

@@ -85,6 +85,6 @@ sm <- sidebarMenu(
 
 sidebar <- shinydashboard::dashboardSidebar(
   br(),
-  div(img(src="inia.jpg", width = "150px"), style="text-align: center;"),
+  div(img(src="logo_app.png", width = "150px"), style="text-align: center;"),
   sm
 )

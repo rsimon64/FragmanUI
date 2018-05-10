@@ -1,6 +1,6 @@
 do_report_basic <- function(folder) {
 
-  library(magrittr)
+  #library(magrittr)
   results_dir <- get_results_dir(folder)
 
   results_dir <- stringr::str_replace_all(results_dir, "\\\\", "/")
@@ -107,7 +107,7 @@ do_report_basic <- function(folder) {
   withr::with_dir(report_dir, {
     bookdown::render_book(list.files(pattern=".Rmd"), output_dir = "_reporte")
   })
-  browseURL(file.path(report_dir, "_reporte", "index.html"))
+  utils::browseURL(file.path(report_dir, "_reporte", "index.html"))
 
   # then transfer additional files from templates (index.Rmd, corr.Rmd)
 
