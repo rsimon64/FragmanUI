@@ -32,15 +32,27 @@ ui_review <- tabItem(
                          )
                        ),
 
-                       shiny::sliderInput("reviewRange", "Rango bp", 0, 1000, c(200, 340) ),
+                       shiny::sliderInput("reviewRange", "Rango bp", 0, 600, c(200, 340) ),
 
-                       shiny::sliderInput("reviewThreshold", "Umbral m\u00EDnimo", 0, 10000, 3000, step = 100)
+                       shiny::sliderInput("reviewThreshold", "Umbral m\u00EDnimo", 0, 12000, 3000, step = 100),
+
+                       fluidRow(
+                         column(6,
+                                shiny::numericInput("reviewQuality", "Lumbral calidad de genotipo", value = .9999,
+                                                    min = 0.8, max = 1.0)
+                         ),
+                         column(6,
+                                br(),
+                                br(),
+                                div(
+                                  shiny::actionButton('btnReview', 'Actualizar gr\u00E1ficos',
+                                                      class = "btn action-button btn-primary")
+                                  , style="text-align: center;")
+
+                         )
+                       )
                      )
-                     ,
-                     shiny::br(),
-                     div(
-                       shiny::actionButton('btnReview', 'Actualizar gr\u00E1ficos')
-                       , style="text-align: center;")
+
 
     ),
     shinycards::card(width = 8, title = "Gr\u00E1ficos", icon = NULL,
@@ -72,6 +84,8 @@ sv_review <- function(input, output, session) {
   observeEvent(input$btnReview, {
 
     v$doPlot <- input$btnReview
+    # save selected parameter values to corresponding assay!
+    # will be read for extracting scores from all archives
 
   })
 

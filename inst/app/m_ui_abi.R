@@ -35,17 +35,17 @@ ui_abi <- tabItem(
                                     )
                                   #)
                                   )
-                    ,
-                    shiny::column(6 ,
-                                  shiny::tags$button(
-                                    id = 'close',
-                                    type = "button",
-                                    class = "btn action-button",
-                                    #class = "btn-warning",
-                                    onclick = "setTimeout(function(){window.close();}, 10);",  # close browser
-                                    "Cerrar programa"
-                                  )
-                    )
+                    # ,
+                    # shiny::column(6 ,
+                    #               # shiny::tags$button(
+                    #               #   id = 'close',
+                    #               #   type = "button",
+                    #               #   class = "btn action-button",
+                    #               #   #class = "btn-warning",
+                    #               #   onclick = "setTimeout(function(){window.close();}, 10);",  # close browser
+                    #               #   "Cerrar programa"
+                    #               # )
+                    # )
                   )
 
 

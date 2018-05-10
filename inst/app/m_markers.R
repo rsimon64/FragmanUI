@@ -22,10 +22,10 @@ ui_markers <- tabItem(
     ),
     shinycards::card(width = 6, title = "", icon = NULL,
                      shiny::selectInput("markerLadder", "Asociar escalera molecular", choices = FragmanUI:::list_ladders()),
-                     shiny::sliderInput("markerRange", "Rango bp", 0, 1000, c(200, 340) ),
+                     shiny::sliderInput("markerRange", "Rango bp", 0, 600, c(200, 340) ),
                      shiny::checkboxGroupInput("markerChannels", "Canales preferidos",  1:5,
                                                selected = 1:5, inline = TRUE),
-                     shiny::sliderInput("markerThreshold", "Umbral mínimo", 0, 10000, 3000, step = 100),
+                     shiny::sliderInput("markerThreshold", "Umbral mínimo", 0, 12000, 3000, step = 100),
                      shiny::br(),
 
                      shiny::actionButton("btnAddMarker", "Crear nuevo marcador")
