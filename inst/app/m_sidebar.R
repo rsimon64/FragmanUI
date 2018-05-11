@@ -30,7 +30,7 @@ sm <- sidebarMenu(
     menuSubItem(
       text="A\u00F1adir conjunto genotipos",
       tabName="tabGenotypes",
-      icon=icon("align-center")
+      icon=icon("object-group")
     )
   )
   ,

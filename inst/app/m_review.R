@@ -13,6 +13,10 @@ ui_review <- tabItem(
                               shiny::uiOutput("reviewMarkerO")
                        )
                      ),
+                     # TODO insert radiobuttons to switch beween preloading: system default, marker standard, or last modification
+                     # TODO if no saved params are found: use the marker default to create an archive!
+                     # TODO new option: set ploidy level! should be done in genotype module! Additional option: just read all peaks
+                     # TODO modify algorithm to select all peaks above threshold!
                      shiny::wellPanel(
                        fluidRow(
                          column(6,
@@ -112,6 +116,8 @@ sv_review <- function(input, output, session) {
       href = NULL,
       text = paste("Review parametros guardados!")
     )
+
+    updateSelectInput(session, input$analyzeProject, selected = v$prj)
 
   })
 

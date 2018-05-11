@@ -6,6 +6,7 @@ shiny::shinyApp(
     sw_dashboardHeader("Analizar Fragmentos ADN", logo = "inia.jpg"),
     sidebar,
     dashboardBody(
+      shinyjs::useShinyjs(),
       tabItems(
         ui_about,
         ui_projects,
