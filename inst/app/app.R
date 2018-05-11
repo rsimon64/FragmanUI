@@ -21,6 +21,11 @@ shiny::shinyApp(
   ),
 
   server = function(input, output, session) {
+    notifications <<-  reactiveValues(
+      note01 = list(id = "welcome", icon = icon("success"), status = "success",
+                    text = "Bienvenido1", href = NULL)
+    )
+
     sv_std(input, output, session)
     sv_projects(input, output, session)
     sv_ladders(input, output, session)
@@ -32,7 +37,7 @@ shiny::shinyApp(
   },
 
   options = list(
-    port = 3141,
+    #port = 3141,
     launch.browser = TRUE
   )
 )

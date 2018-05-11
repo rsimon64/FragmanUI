@@ -99,6 +99,19 @@ sv_review <- function(input, output, session) {
     )
 
     FragmanUI:::save_scan_params(prms, v$prj, v$mrk)
+    note <- notificationItem("Paramétros guardados!", icon = shiny::icon("info"), status = "success",
+                     href = NULL)
+
+    now <- Sys.time()
+    id <- paste0("RevPar", now)
+
+    notifications[[id]] <- list(
+      id = "id",
+      icon = icon("success"),
+      status = "success",
+      href = NULL,
+      text = paste("Review parametros guardados!")
+    )
 
   })
 
@@ -143,7 +156,7 @@ sv_review <- function(input, output, session) {
     isolate({
     withProgress(message = "Actualizando gr\u00E1fico overview", style = "notification", value = 1, {
       score_env <- globalenv()
-      folder <- file.path(get_assay_dir(v$prj, v$mrk), "data")
+      folder <- file.path(FragmanUI:::get_assay_dir(v$prj, v$mrk), "data")
       my_plants <- storing.inds(folder)
       my_ladder <- FragmanUI:::read_ladder(v$ldr)[[1]] %>% as.integer
       ladder.info.attach(stored=my_plants, ladder = my_ladder, env = score_env,  draw = FALSE)
@@ -162,7 +175,7 @@ sv_review <- function(input, output, session) {
     isolate({
     withProgress(message = "Actualizando gr\u00E1fico zoom", style = "notification", value = 1, {
       score_env <- globalenv()
-      folder <- file.path(get_assay_dir(v$prj, v$mrk), "data")
+      folder <- file.path(FragmanUI:::get_assay_dir(v$prj, v$mrk), "data")
       my_plants <- storing.inds(folder)
       my_ladder <- FragmanUI:::read_ladder(v$ldr)[[1]] %>% as.integer
       ladder.info.attach(stored=my_plants, ladder = my_ladder, env = score_env,  draw = FALSE)
