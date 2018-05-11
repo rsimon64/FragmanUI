@@ -47,7 +47,7 @@ sm <- sidebarMenu(
     menuSubItem(
 
       text="Evaluar",
-      tabName="tabReview",
+      tabName="tabEvaluate",
       icon=icon("eye")
     ),
 
@@ -60,7 +60,7 @@ sm <- sidebarMenu(
     ,
     menuSubItem(
       text="Revisar resultados",
-      tabName="tabABIreview",
+      tabName="tabReview",
       icon=icon("check")
     ),
     menuSubItem(

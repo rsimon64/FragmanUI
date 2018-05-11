@@ -6,27 +6,18 @@ ui_analyze <- tabItem(
     column(4,
 
     shinycards::card(title = "Revisar marcador ABI", icon = NULL, width = NULL,
-                     #fluidRow(
                        shiny::selectInput("analyzeProject", "Proyecto", FragmanUI:::res_name(FragmanUI:::list_projects() )
                        )
-                     #)
                      ,
-                     #fluidRow(
                        shiny::uiOutput("analyzeMarkerO")
-
-                     #)
                      ,
-                     #fluidRow(
                         br(),
                         br(),
-
                         div(
                           shinyjs::hidden(p(id = "anaHint", "Favor revisar parametros antes de analizar.")),
                           shiny::actionButton('btnAnalyze', 'Analizar archivos',
                                               class = "btn action-button btn-primary")
                           , style="text-align: center;")
-
-                     #)
                      )
     ),
     column(8,
@@ -125,31 +116,11 @@ sv_analyze <- function(input, output, session) {
       fs <- file.path(rn, "samples_low_quality.csv")
       fs <- stringr::str_replace_all(fs, "\\\\", "/")
       utils::write.csv(bad_samples, fs)
-      #
-      #
-      # output$scoreResults <- DT::renderDataTable(df)
-      #
-      # params <- list(
-      #   folder = path(),
-      #   channels = input$channels,
-      #   min_threshold = input$min_threshold,
-      #   x_range = input$x_range,
-      #   marker = input$markerName,
-      #   ladder = list(
-      #     name = input$ladderName,
-      #     sizes = input$ladderSizes
-      #   ),
-      #   quality_threshold = input$quality
-      # )
-      # params <- yaml::as.yaml(params)
-      # yaml::write_yaml(params, file.path(rn, "params.yaml.txt"))
-      #
-      #
-      # scores <- df
+
 
     })
 
-    showNotification("Archivos analizados!.", type = "message", duration = NULL)
+    showNotification("Archivos analizados!", type = "message", duration = NULL)
 
 
   })
