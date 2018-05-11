@@ -3,23 +3,17 @@
 ui_review <- tabItem(
   tabName = "tabReview",
   shiny::fluidRow(
-    column(4,
+    column(2,
 
     shinycards::card(title = "Revisar resultados", icon = NULL, width = NULL,
                        shiny::selectInput("reviewProject", "Proyecto", FragmanUI:::res_name(FragmanUI:::list_projects() )
                        )
-                     # ,
-                     #   shiny::uiOutput("reviewMarkerO")
-                     # ,
-                     #    br(),
-                     #    br(),
-                     #    div(
-                     #      shinyjs::hidden(p(id = "revHint", "Favor revisar parametros antes de analizar.")),
-                     #      shiny::actionButton('btnReview', 'Analizar archivos',
-                     #                          class = "btn action-button btn-primary")
-                     #      , style="text-align: center;")
-                     #
-                     )
+                     ,
+                       shiny::uiOutput("reviewMarkerO")
+    )
+    ),
+    column(10,
+      DT::dataTableOutput("reviewResults")
     )
 
   )
@@ -28,5 +22,44 @@ ui_review <- tabItem(
 
 
 sv_review <- function(input, output, session) {
+  output$reviewMarkerO <- renderUI({
+    if(is.null(input$reviewProject)) return()
+
+    selectInput("reviewMarker", "Seleccionar marcador",
+                FragmanUI:::res_name(FragmanUI:::list_assays(input$reviewProject)))
+
+  })
+
+  vRv <- reactiveValues(doPlot = FALSE)
+
+  observeEvent(input$reviewProject, {
+    vRv$doTable <- FALSE
+  })
+
+  observeEvent(input$reviewMarker, {
+    vRv$doTable <- FALSE
+  })
+
+  output$reviewResults <- DT::renderDataTable({
+
+
+    pn <- input$reviewProject
+    mn <- input$reviewMarker
+
+    message(paste("mn =", mn))
+
+    if(!is.character(mn)) return(NULL)
+    #if(!is.vector(mn)) return(NULL)
+
+    dr <- FragmanUI:::get_assay_dir(pn, mn)
+    rn <- file.path(dr, "results")
+    #fp <- file.path(rn, "scores.csv")
+    #utils::write.csv(df, file = fp, row.names = FALSE)
+    fb <- file.path(rn, "scores_bin.csv")
+    fb <- stringr::str_replace_all(fb, "\\\\", "/")
+    read.csv(fb)
+  }
+  )
+
 
 }

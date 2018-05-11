@@ -52,13 +52,14 @@ sm <- sidebarMenu(
     ),
 
     menuSubItem(
-      selected = TRUE,
+
       text="Analizar",
       tabName="tabAnalyze",
       icon=icon("table")
     )
     ,
     menuSubItem(
+      selected = TRUE,
       text="Revisar resultados",
       tabName="tabReview",
       icon=icon("check")
