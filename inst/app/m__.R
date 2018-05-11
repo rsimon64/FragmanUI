@@ -38,7 +38,7 @@ sv_std <- function(input, output, session) {
 
   output$notificationMenu <- renderMenu({
     items <- lapply(reactiveValuesToList(notifications), function(el) {
-      notificationItem(status = el$status, icon = el$icon, text = el$text,
+      notificationItem(status = el$status, icon = icon(el$icon), text = el$text,
                        href = el$href)
     })
     dropdownMenu(

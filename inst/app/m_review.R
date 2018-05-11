@@ -99,15 +99,15 @@ sv_review <- function(input, output, session) {
     )
 
     FragmanUI:::save_scan_params(prms, v$prj, v$mrk)
-    note <- notificationItem("Paramétros guardados!", icon = shiny::icon("info"), status = "success",
-                     href = NULL)
+    # note <- notificationItem("Paramétros guardados!", icon = icon("info"), status = "success",
+    #                  href = NULL)
 
     now <- Sys.time()
     id <- paste0("RevPar", now)
 
     notifications[[id]] <- list(
       id = "id",
-      icon = icon("success"),
+      icon = "info",
       status = "success",
       href = NULL,
       text = paste("Review parametros guardados!")

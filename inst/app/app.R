@@ -22,7 +22,7 @@ shiny::shinyApp(
 
   server = function(input, output, session) {
     notifications <<-  reactiveValues(
-      note01 = list(id = "welcome", icon = icon("success"), status = "success",
+      note01 = list(id = "welcome", icon = "info", status = "success",
                     text = "Bienvenido1", href = NULL)
     )
 
