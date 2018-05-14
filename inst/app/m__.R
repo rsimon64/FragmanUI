@@ -1,7 +1,17 @@
 library(shinyware)
 library(shiny)
 library(shinydashboard)
+
+library(future)
+plan(multiprocess)
+
+library(promises)
+
+
 library(Fragman)
+
+data(liz600)
+
 
 
 sv_std <- function(input, output, session) {

@@ -159,18 +159,27 @@ sv_evaluate <- function(input, output, session) {
   output$overview2 <- renderPlot({
     if (v$doPlot == FALSE) return()
 
-    isolate({
-    withProgress(message = "Actualizando gr\u00E1fico overview", style = "notification", value = 1, {
-      score_env <- globalenv()
-      folder <- file.path(FragmanUI:::get_assay_dir(v$prj, v$mrk), "data")
-      my_plants <- storing.inds(folder)
-      my_ladder <- FragmanUI:::read_ladder(v$ldr)[[1]] %>% as.integer
+    #isolate({
+    score_env <- globalenv()
+    folder <- file.path(FragmanUI:::get_assay_dir(v$prj, v$mrk), "data")
+    my_plants <- storing.inds(folder)
+    my_ladder <- FragmanUI:::read_ladder(v$ldr)[[1]] %>% as.integer
+
+    do_calc <- function() {
+    #withProgress(message = "Actualizando gr\u00E1fico overview", style = "notification", value = 1, {
+
       ladder.info.attach(stored=my_plants, ladder = my_ladder, env = score_env,  draw = FALSE)
+
+    #}
+    }
+
+    future(do_calc) %...>% {
       overview2(my.inds = my_plants, ladder = my_ladder, channel = v$chn, env = score_env)
       abline(h = as.integer(v$thr), col = "red")
       abline(v = as.integer(v$rng), col = "blue")
-    })
-    })
+    }
+
+    #})
   }
   )
 
