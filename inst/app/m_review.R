@@ -12,8 +12,16 @@ ui_review <- tabItem(
                        shiny::uiOutput("reviewMarkerO")
     )
     ),
+
     column(10,
-      DT::dataTableOutput("reviewResults")
+      shinycards::card(title = "Resultados", icon = NULL, width = NULL,
+        shiny::tabsetPanel(
+          tabPanel(title = "Formato binario",
+            DT::dataTableOutput("reviewResults")
+          )
+        )
+
+      )
     )
 
   )
@@ -57,7 +65,10 @@ sv_review <- function(input, output, session) {
     #utils::write.csv(df, file = fp, row.names = FALSE)
     fb <- file.path(rn, "scores_bin.csv")
     fb <- stringr::str_replace_all(fb, "\\\\", "/")
-    read.csv(fb)
+    res <- read.csv(fb)
+    DT::datatable(data = res,
+                  options = list(scrollX = TRUE)
+    )
   }
   )
 
