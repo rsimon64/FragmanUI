@@ -66,6 +66,7 @@ sv_markers <- function(input, output, session) {
     })
 
     updateSelectInput(session, "importAbiMarker", choices = listM)
+    updateSelectInput(session, "evaluateMarkerO", choices = listM)
     showNotification("Marcador molecular nueva creado!.", type = "message", duration = NULL)
   })
 

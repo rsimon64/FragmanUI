@@ -173,11 +173,12 @@ sv_evaluate <- function(input, output, session) {
     #}
     }
 
-    future(do_calc) %...>% {
+    #future(do_calc) %...>% {
+    do_calc()
       overview2(my.inds = my_plants, ladder = my_ladder, channel = v$chn, env = score_env)
       abline(h = as.integer(v$thr), col = "red")
       abline(v = as.integer(v$rng), col = "blue")
-    }
+    #}
 
     #})
   }

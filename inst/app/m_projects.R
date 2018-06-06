@@ -29,6 +29,9 @@ sv_projects <- function(input, output, session) {
     })
 
     updateRadioButtons(session, "projectTgt", choices = listP)
+
+    updateSelectInput(session, "importProjectTgt", choices = listP)
+    updateSelectInput(session, "evaluateProject", choices = listP)
     showNotification("Proyecto nuevo creado!.", type = "message", duration = NULL)
   })
 

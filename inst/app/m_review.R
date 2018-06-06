@@ -65,10 +65,15 @@ sv_review <- function(input, output, session) {
     #utils::write.csv(df, file = fp, row.names = FALSE)
     fb <- file.path(rn, "scores_bin.csv")
     fb <- stringr::str_replace_all(fb, "\\\\", "/")
-    res <- read.csv(fb)
-    DT::datatable(data = res,
-                  options = list(scrollX = TRUE)
-    )
+    #if(file.exists(fb)) {
+      res <- read.csv(fb)
+      DT::datatable(data = res,
+                    options = list(scrollX = TRUE)
+      )
+
+    # } else {
+    #   NULL
+    # }
   }
   )
 

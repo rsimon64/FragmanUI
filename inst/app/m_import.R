@@ -8,7 +8,7 @@ ui_import <- tabItem(
                      shiny::selectInput("importAbiMarker", "Asociar marcador", FragmanUI:::list_markers()  ),
                      shiny::selectInput("importAbiLadder", "Asociar escalera", FragmanUI:::list_ladders()  ),
                      shiny::selectInput("importAbiGenotypes", "Asociar grupo genotipos", FragmanUI:::list_genotypes()  ),
-                     shiny::selectInput("projectTgt", "Proyecto destino", basename(FragmanUI:::list_projects())),
+                     shiny::selectInput("importProjectTgt", "Proyecto destino", basename(FragmanUI:::list_projects())),
                      shiny::htmlOutput("importedMarker"),
                      shiny::br(),
                      shinyFiles::shinyDirButton('btnAbiSrcDir', 'Importar de', 'Seleccione un folder')
@@ -34,7 +34,7 @@ sv_import <- function(input, output, session) {
 
   observeEvent(input$btnAbiSrcDir, {
     prefix <- paste0("i_", FragmanUI:::act_year(), "_")
-    tgt <- stringr::str_replace(input$projectTgt, prefix, "")
+    tgt <- stringr::str_replace(input$importProjectTgt, prefix, "")
     shiny::withProgress(message = 'Procesando ...', style = "notification", value = 1,{
       FragmanUI:::add_assay(abiSrcPath(), tgt)
     }
@@ -50,10 +50,10 @@ sv_import <- function(input, output, session) {
     })
   })
 
-  observeEvent(input$projectTgt, {
+  observeEvent(input$importProjectTgt, {
     output$importedMarker <- renderText({
       prefix <- paste0("i_", FragmanUI:::act_year(), "_")
-      tgt <- stringr::str_replace(input$projectTgt, prefix, "")
+      tgt <- stringr::str_replace(input$importProjectTgt, prefix, "")
       fls <- basename(FragmanUI:::list_assays(tgt))
       #message(fls)
 

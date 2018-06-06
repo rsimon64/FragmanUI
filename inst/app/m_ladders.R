@@ -22,7 +22,7 @@ sv_ladders <- function(input, output, session) {
   })
 
   observeEvent(input$btnAddLadderID, {
-    ladder <- list(input$ladderBp)
+    ladder <- list(input$ladderBp  %>% stringr::str_split(", ") %>% unlist %>% as.integer )
     names(ladder)[1] <- input$ladderID
     FragmanUI:::add_ladder(ladder)
 
@@ -34,6 +34,8 @@ sv_ladders <- function(input, output, session) {
 
     updateSelectInput(session, "markerLadder", choices = listL)
     updateSelectInput(session, "importAbiLadder", choices = listL)
+    updateSelectInput(session, "evaluateLadder", choices = listL)
+
     showNotification("Escalera mmolecular nueva creado!.", type = "message", duration = NULL)
   })
 

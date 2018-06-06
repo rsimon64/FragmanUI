@@ -18,13 +18,8 @@
 #'
 run_fran <- function(port = 9876) {
 
-  # shiny::shinyApp(
-  #   ui = ui_app,
-  #   server = sv_app,
-  #   options = list(
-  #     port = port,
-  #     launch.browser = TRUE
-  #   )
-  # )
+  shiny::runApp(system.file("app", package = "FragmanUI"))
+
+
 
 }

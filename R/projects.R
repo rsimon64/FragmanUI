@@ -1,4 +1,4 @@
-institute <- function() {"INIA"}
+institute <- function() {"fran"}
 department <- function() {"DRGB"}
 
 act_year <- function() {stringr::str_sub(Sys.Date(), start = 1, 4)}
@@ -6,7 +6,9 @@ prefix_inv <- paste0("i_", act_year(), "_")
 prefix_ass <- paste0("a_", act_year(), "_")
 
 get_project_base_dir <- function() {
-  file.path(rappdirs::user_data_dir(appname = department(), appauthor = institute()), "projects")
+  adir <- file.path(rappdirs::user_data_dir(appname = department(), appauthor = institute()), "projects")
+  if(!dir.exists(adir)) dir.create(adir, recursive = TRUE)
+  adir
 }
 
 list_projects <- function() {
@@ -14,7 +16,10 @@ list_projects <- function() {
 }
 
 get_project_dir <- function(project_ID) {
-  file.path(get_project_base_dir(), paste0(prefix_inv, project_ID))
+
+  adir <- file.path(get_project_base_dir(), paste0(prefix_inv, project_ID))
+  if(!dir.exists(adir)) dir.create(adir, recursive = TRUE)
+  adir
 }
 
 add_project <- function(project_ID = "demo") {
