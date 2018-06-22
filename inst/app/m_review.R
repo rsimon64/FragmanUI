@@ -18,6 +18,10 @@ ui_review <- tabItem(
         shiny::tabsetPanel(
           tabPanel(title = "Formato binario",
             DT::dataTableOutput("reviewResults")
+          ),
+          tabPanel(title = "Graficos",
+            shiny::uiOutput("selectGraphsO"),
+            shiny::plotOutput("reviewGraphs")
           )
         )
 
@@ -30,6 +34,37 @@ ui_review <- tabItem(
 
 
 sv_review <- function(input, output, session) {
+
+  output$selectGraphsO <- renderUI({
+    getImages <- function() {
+      dr <- FragmanUI:::get_assay_dir(input$reviewProject, input$reviewMarker)
+      rn <- file.path(dr, "results", "images") %>%  list.files()
+      #rn <- stringr::str_replace_all(rn, "/", "\\\\")
+      #fn <- basename(rn)
+      rn
+    }
+    im <- getImages()
+    if(length(im) > 0) {
+      selectInput("selectGraphs", "Seleccionar grafico", im)
+    } else {
+      NULL
+    }
+  })
+
+  output$reviewGraphs <- renderImage({
+    validate(
+      need(input$reviewMarker != "", "Favor seleccionar proyecto y marcador.")
+    )
+    dr <- FragmanUI:::get_assay_dir(input$reviewProject, input$reviewMarker)
+    rn <- file.path(dr, "results", "images", input$selectGraphs) %>% normalizePath()
+
+    if(file.exists(rn)) {
+      list(src = rn)
+    } else {
+      NULL
+    }
+  }, delete = FALSE)
+
   output$reviewMarkerO <- renderUI({
     if(is.null(input$reviewProject)) return()
 
@@ -65,15 +100,15 @@ sv_review <- function(input, output, session) {
     #utils::write.csv(df, file = fp, row.names = FALSE)
     fb <- file.path(rn, "scores_bin.csv")
     fb <- stringr::str_replace_all(fb, "\\\\", "/")
-    #if(file.exists(fb)) {
+    if(file.exists(fb)) {
       res <- read.csv(fb)
       DT::datatable(data = res,
                     options = list(scrollX = TRUE)
       )
 
-    # } else {
-    #   NULL
-    # }
+     } else {
+       NULL
+     }
   }
   )
 
